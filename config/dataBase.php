@@ -1,7 +1,7 @@
 <?php
 
 $host = '127.0.0.1';
-$dbname = 'my_database';
+$dbname = 'drophut_e_commerce';
 $username = 'root';
 $password = '';
 
