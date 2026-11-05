@@ -89,7 +89,7 @@ public function profileUpdate($data){
 
     $admin = $this->model->where('name', '=', $data['name']) ?? null; 
        
-    // return var_dump($data,$admin, $admin != null && password_verify($data['password'], $admin[0]['password'])); die();
+    return var_dump($data,$admin, $admin != null && password_verify($data['password'], $admin[0]['password'])); die();
     if($admin[0] != null && password_verify($data['password'], $admin[0]['password'])){
     $_SESSION['admin'] = [
     'logedIn' => true,
