@@ -4,17 +4,16 @@ namespace core\database\traits;
 
 trait HasCrud
 {
-
-    public function all()
+    public function all(): array
     {
         $stmt = $this->db->query(
             "SELECT * FROM {$this->table}"
         );
 
-        return $stmt->fetchAll();
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
-    public function find($id)
+    public function find($id): array|false
     {
         $stmt = $this->db->prepare(
             "SELECT * FROM {$this->table} WHERE id = ?"
@@ -22,10 +21,10 @@ trait HasCrud
 
         $stmt->execute([$id]);
 
-        return $stmt->fetch();
+        return $stmt->fetch(\PDO::FETCH_ASSOC);
     }
 
-    public function insert($data)
+    public function insert($data): bool
     {
         $columns = implode(', ', array_keys($data));
         $placeholders = implode(', ', array_fill(0, count($data), '?'));
@@ -37,7 +36,7 @@ trait HasCrud
         return $stmt->execute(array_values($data));
     }
 
-    public function update($id, $data)
+    public function update($id, $data): bool
     {
         $columns = [];
         $values = [];
@@ -58,7 +57,7 @@ trait HasCrud
         return $stmt->execute($values);
     }
 
-    public function delete($id)
+    public function delete($id): bool
     {
         $stmt = $this->db->prepare(
             "DELETE FROM {$this->table} WHERE id = ?"
@@ -67,22 +66,25 @@ trait HasCrud
         return $stmt->execute([$id]);
     }
 
+    public function where($column, $operator, $value): array
+    {
+        $allowedOperators = ['=', '>', '<', '>=', '<=', '!=', '<>'];
 
-public function where($column, $operator, $value)
-{
-    $allowedOperators = ['=', '>', '<', '>=', '<=', '!=', '<>'];
+        if (!in_array($operator, $allowedOperators, true)) {
+            throw new \InvalidArgumentException('Invalid operator');
+        }
 
-    if (!in_array($operator, $allowedOperators)) {
-        throw new \InvalidArgumentException('Invalid operator');
+        // Prevent SQL injection through column name
+        if (!preg_match('/^[a-zA-Z_][a-zA-Z0-9_]*$/', $column)) {
+            throw new \InvalidArgumentException('Invalid column name');
+        }
+
+        $stmt = $this->db->prepare(
+            "SELECT * FROM {$this->table} WHERE {$column} {$operator} ?"
+        );
+
+        $stmt->execute([$value]);
+
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
-
-    $stmt = $this->db->prepare(
-        "SELECT * FROM {$this->table} WHERE {$column} {$operator} ?"
-    );
-
-    $stmt->execute([$value]);
-
-    return $stmt->fetchAll();
-}
-
 }
