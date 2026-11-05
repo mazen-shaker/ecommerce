@@ -14,6 +14,77 @@ class UserController extends Main
         $this->model = new User();
     }
 
+
+    public function index(){
+
+   $users = [
+    [
+        'id'         => 1,
+        'name'       => 'ahmed',
+        'email'      => 'ahmed@example.com',
+        'password'   => password_hash('123456', PASSWORD_BCRYPT),
+        'phone'      => '20101234567',
+        'created_at' => '2026-11-01 09:15:20',
+        'updated_at' => '2026-11-01 09:15:20',
+    ],
+    [
+        'id'         => 2,
+        'name'       => 'sara',
+        'email'      => 'sara@example.com',
+        'password'   => password_hash('123456', PASSWORD_BCRYPT),
+        'phone'      => '20111234567',
+        'created_at' => '2026-11-02 11:30:45',
+        'updated_at' => '2026-11-02 11:30:45',
+    ],
+    [
+        'id'         => 3,
+        'name'       => 'omar',
+        'email'      => 'omar@example.com',
+        'password'   => password_hash('123456', PASSWORD_BCRYPT),
+        'phone'      => '20121234567',
+        'created_at' => '2026-11-03 14:05:10',
+        'updated_at' => '2026-11-03 14:05:10',
+    ],
+    [
+        'id'         => 4,
+        'name'       => 'mazen',
+        'email'      => 'mazen@mazen.mazen',
+        'password'   => password_hash('123456', PASSWORD_BCRYPT),
+        'phone'      => '20123456789',
+        'created_at' => '2026-11-05 17:17:48',
+        'updated_at' => '2026-11-05 17:17:48',
+    ],
+    [
+        'id'         => 5,
+        'name'       => 'nour',
+        'email'      => 'nour@example.com',
+        'password'   => password_hash('123456', PASSWORD_BCRYPT),
+        'phone'      => '20151234567',
+        'created_at' => '2026-11-05 18:42:33',
+        'updated_at' => '2026-11-05 18:42:33',
+    ],
+    [
+        'id'         => 6,
+        'name'       => 'youssef',
+        'email'      => 'youssef@example.com',
+        'password'   => password_hash('123456', PASSWORD_BCRYPT),
+        'phone'      => '20109876543',
+        'created_at' => '2026-11-05 20:10:05',
+        'updated_at' => '2026-11-05 20:10:05',
+    ],
+]; 
+
+
+
+
+    return $this->view('admin/index-users',compact('users'));
+
+    }
+
+
+
+
+
     public function createLogin()
     {
 

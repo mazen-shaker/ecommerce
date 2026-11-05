@@ -23,6 +23,7 @@ Main::get('/admin/profile', ['Admin\AdminController', 'profile']);
 Main::post('/admin/login', ['Admin\AdminController', 'login']);
 Main::get('/admin', ['Admin\DashboardController', 'index']);
 Main::get('/users/index', ['Admin\UserController', 'index']);
+Main::get('/categories/index', ['Admin\CategoryController', 'index']);
 
 
 

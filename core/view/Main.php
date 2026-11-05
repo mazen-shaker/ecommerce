@@ -6,9 +6,10 @@ class Main
 {
 
 function view(string $name, $data = null): string {
+       
     $path = "./resources/views/{$name}.php";
 
-    $data = $data ?? null;
+    extract($data);
 
     ob_start();
     require $path;

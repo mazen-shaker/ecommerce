@@ -5,49 +5,6 @@ $breadcrumbs = [
     ['label' => 'Home', 'url' => 'index.php'],
     ['label' => 'Users', 'url' => null],
 ];
-
-$users = [
-    [
-        'id' => 1,
-        'name' => 'Brandon Jacob',
-        'email' => 'brandon.jacob@example.com',
-        'phone' => '+1 555-0101',
-        'role' => 'Admin',
-        'status' => 'Active',
-    ],
-    [
-        'id' => 2,
-        'name' => 'Bridie Kessler',
-        'email' => 'bridie.kessler@example.com',
-        'phone' => '+1 555-0102',
-        'role' => 'Editor',
-        'status' => 'Active',
-    ],
-    [
-        'id' => 3,
-        'name' => 'Ashleigh Langosh',
-        'email' => 'ashleigh.langosh@example.com',
-        'phone' => '+1 555-0103',
-        'role' => 'User',
-        'status' => 'Pending',
-    ],
-    [
-        'id' => 4,
-        'name' => 'Angus Grady',
-        'email' => 'angus.grady@example.com',
-        'phone' => '+1 555-0104',
-        'role' => 'User',
-        'status' => 'Inactive',
-    ],
-    [
-        'id' => 5,
-        'name' => 'Raheem Lehner',
-        'email' => 'raheem.lehner@example.com',
-        'phone' => '+1 555-0105',
-        'role' => 'Editor',
-        'status' => 'Active',
-    ],
-];
 ?>
 
 <?php include __DIR__ . '/layouts/head.php'; ?>
@@ -89,8 +46,7 @@ $users = [
                                         <th scope="col">User</th>
                                         <th scope="col">Email</th>
                                         <th scope="col">Phone</th>
-                                        <th scope="col">Role</th>
-                                        <th scope="col">Status</th>
+                                        <th scope="col">Created At</th>
                                         <th scope="col">Actions</th>
                                     </tr>
                                 </thead>
@@ -104,22 +60,8 @@ $users = [
 
                                             <td><?= htmlspecialchars($user['name']) ?></td>
                                             <td><?= htmlspecialchars($user['email']) ?></td>
-                                            <td><?= htmlspecialchars($user['phone']) ?></td>
-                                            <td><?= htmlspecialchars($user['role']) ?></td>
-
-                                            <td>
-                                                <?php
-                                                $statusClass = match ($user['status']) {
-                                                    'Active' => 'success',
-                                                    'Pending' => 'warning',
-                                                    'Inactive' => 'secondary',
-                                                    default => 'secondary',
-                                                };
-                                                ?>
-                                                <span class="badge bg-<?= $statusClass ?>">
-                                                    <?= htmlspecialchars($user['status']) ?>
-                                                </span>
-                                            </td>
+                                            <td><?= htmlspecialchars((string) $user['phone']) ?></td>
+                                            <td><?= htmlspecialchars($user['created_at']) ?></td>
 
                                             <td>
                                                 <div class="d-flex align-items-center gap-2">
@@ -130,12 +72,10 @@ $users = [
                                                         title="Edit user"
                                                         data-bs-toggle="modal"
                                                         data-bs-target="#editUserModal"
-                                                        data-user-id="<?= htmlspecialchars((string) $user['id']) ?>"
+                                                        data-user-id="<?= htmlspecialchars((string) $user['id'], ENT_QUOTES) ?>"
                                                         data-user-name="<?= htmlspecialchars($user['name'], ENT_QUOTES) ?>"
                                                         data-user-email="<?= htmlspecialchars($user['email'], ENT_QUOTES) ?>"
-                                                        data-user-phone="<?= htmlspecialchars($user['phone'], ENT_QUOTES) ?>"
-                                                        data-user-role="<?= htmlspecialchars($user['role'], ENT_QUOTES) ?>"
-                                                        data-user-status="<?= htmlspecialchars($user['status'], ENT_QUOTES) ?>"
+                                                        data-user-phone="<?= htmlspecialchars((string) $user['phone'], ENT_QUOTES) ?>"
                                                     >
                                                         <i class="bi bi-pencil-square"></i>
                                                     </button>
@@ -146,7 +86,7 @@ $users = [
                                                         title="Delete user"
                                                         data-bs-toggle="modal"
                                                         data-bs-target="#deleteUserModal"
-                                                        data-user-id="<?= htmlspecialchars((string) $user['id']) ?>"
+                                                        data-user-id="<?= htmlspecialchars((string) $user['id'], ENT_QUOTES) ?>"
                                                         data-user-name="<?= htmlspecialchars($user['name'], ENT_QUOTES) ?>"
                                                     >
                                                         <i class="bi bi-trash"></i>
@@ -181,7 +121,7 @@ $users = [
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
-            <form action="user-create.php" method="POST">
+            <form action="<?= $GLOBALS['basePath'] ?>/user/store" method="POST">
                 <div class="modal-body">
 
                     <div class="mb-3">
@@ -200,21 +140,8 @@ $users = [
                     </div>
 
                     <div class="mb-3">
-                        <label for="userRole" class="form-label">Role</label>
-                        <select class="form-select" id="userRole" name="role" required>
-                            <option value="User" selected>User</option>
-                            <option value="Editor">Editor</option>
-                            <option value="Admin">Admin</option>
-                        </select>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="userStatus" class="form-label">Status</label>
-                        <select class="form-select" id="userStatus" name="status" required>
-                            <option value="Active" selected>Active</option>
-                            <option value="Pending">Pending</option>
-                            <option value="Inactive">Inactive</option>
-                        </select>
+                        <label for="userPassword" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="userPassword" name="password" required>
                     </div>
 
                 </div>
@@ -243,7 +170,7 @@ $users = [
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
-            <form action="user-edit.php" method="POST">
+            <form action="<?= $GLOBALS['basePath'] ?>/user/update" method="POST">
                 <div class="modal-body">
 
                     <input type="hidden" name="id" id="editUserId">
@@ -264,21 +191,14 @@ $users = [
                     </div>
 
                     <div class="mb-3">
-                        <label for="editUserRole" class="form-label">Role</label>
-                        <select class="form-select" id="editUserRole" name="role" required>
-                            <option value="User">User</option>
-                            <option value="Editor">Editor</option>
-                            <option value="Admin">Admin</option>
-                        </select>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="editUserStatus" class="form-label">Status</label>
-                        <select class="form-select" id="editUserStatus" name="status" required>
-                            <option value="Active">Active</option>
-                            <option value="Pending">Pending</option>
-                            <option value="Inactive">Inactive</option>
-                        </select>
+                        <label for="editUserPassword" class="form-label">New Password</label>
+                        <input
+                            type="password"
+                            class="form-control"
+                            id="editUserPassword"
+                            name="password"
+                            placeholder="Leave blank to keep current password"
+                        >
                     </div>
 
                 </div>
@@ -307,18 +227,23 @@ $users = [
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
-            <div class="modal-body">
-                Are you sure you want to delete
-                <strong id="deleteUserName"></strong>?
-            </div>
+            <form action="<?= $GLOBALS['basePath'] ?>/user/delete" method="POST">
+                <div class="modal-body">
 
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <input type="hidden" name="id" id="deleteUserId">
 
-                <a href="#" id="confirmDeleteUser" class="btn btn-danger">
-                    <i class="bi bi-trash me-1"></i>Delete
-                </a>
-            </div>
+                    Are you sure you want to delete
+                    <strong id="deleteUserName"></strong>?
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-danger">
+                        <i class="bi bi-trash me-1"></i>Delete
+                    </button>
+                </div>
+            </form>
 
         </div>
     </div>
@@ -328,23 +253,18 @@ $users = [
     document.getElementById('editUserModal').addEventListener('show.bs.modal', function (event) {
         const button = event.relatedTarget;
 
-        document.getElementById('editUserId').value = button.getAttribute('data-user-id');
-        document.getElementById('editUserName').value = button.getAttribute('data-user-name');
-        document.getElementById('editUserEmail').value = button.getAttribute('data-user-email');
-        document.getElementById('editUserPhone').value = button.getAttribute('data-user-phone');
-        document.getElementById('editUserRole').value = button.getAttribute('data-user-role');
-        document.getElementById('editUserStatus').value = button.getAttribute('data-user-status');
+        document.getElementById('editUserId').value       = button.getAttribute('data-user-id');
+        document.getElementById('editUserName').value     = button.getAttribute('data-user-name');
+        document.getElementById('editUserEmail').value    = button.getAttribute('data-user-email');
+        document.getElementById('editUserPhone').value    = button.getAttribute('data-user-phone');
+        document.getElementById('editUserPassword').value = '';
     });
 
     document.getElementById('deleteUserModal').addEventListener('show.bs.modal', function (event) {
         const button = event.relatedTarget;
-        const userId = button.getAttribute('data-user-id');
-        const userName = button.getAttribute('data-user-name');
 
-        document.getElementById('deleteUserName').textContent = userName;
-
-        document.getElementById('confirmDeleteUser').href =
-            'user-delete.php?id=' + encodeURIComponent(userId);
+        document.getElementById('deleteUserId').value         = button.getAttribute('data-user-id');
+        document.getElementById('deleteUserName').textContent = button.getAttribute('data-user-name');
     });
 </script>
 
