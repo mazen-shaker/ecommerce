@@ -1,0 +1,20 @@
+{
+    "name": "ecommerce/project",
+    "type": "project",
+    "require": {},
+    "autoload": {
+    "classmap": [
+    "app/Models",
+    "app/Http/Controllers",
+    "app/Http/Controllers/Admin",
+    "app/Http/Controllers/Customer",
+    "app/Http/Controllers/Storefront",
+    "app/Http/Requests",
+    "core/routing",
+    "core/database",
+    "core/valedation",
+    "core/view"
+    ]   
+    }
+
+}

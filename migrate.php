@@ -1,0 +1,36 @@
+<?php
+
+require_once './config/dataBase.php';
+
+try {
+
+    $db = new PDO(
+        "mysql:host=$host",
+        $username,
+        $password
+    );
+
+    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    $db->exec("CREATE DATABASE IF NOT EXISTS `$dbname`");
+
+    $db->exec("USE `$dbname`");
+
+    $files = glob('./database/migrations/*.php');
+
+    sort($files);
+
+    foreach ($files as $file) {
+
+        $sql = require $file;
+
+        $db->exec($sql);
+
+        echo basename($file) . " executed successfully\n";
+    }
+
+} catch (PDOException $e) {
+
+    echo "Migration Error: " . $e->getMessage();
+
+}
