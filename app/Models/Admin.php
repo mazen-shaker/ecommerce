@@ -8,5 +8,5 @@ class Admin extends Model
 {
     use HasCrud;
 
-    protected string $table = 'admin';
+    protected string $table = 'admins';
 }

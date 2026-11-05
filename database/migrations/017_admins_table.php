@@ -1,7 +1,7 @@
 <?php
 
 return "
-    CREATE TABLE admin (
+    CREATE TABLE admins (
         id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
         name VARCHAR(150) COLLATE utf8mb4_unicode_ci NOT NULL,
         email VARCHAR(190) COLLATE utf8mb4_unicode_ci NOT NULL,
