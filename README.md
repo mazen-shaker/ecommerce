@@ -8,14 +8,14 @@
 
 ## المحتويات
 
+> **لو هتشتغل على CRUD:** اقرأ التشغيل والـ basePath، وبعدها روح مباشرة لقسم [دليل CRUD كامل](#6-دليل-crud-كامل-مع-validation).
+
 1. [التشغيل](#1-التشغيل)
 2. [الـ basePath (مهم جداً)](#2-الـ-basepath-مهم-جداً)
 3. [دورة الطلب (Request Lifecycle)](#3-دورة-الطلب-request-lifecycle)
-4. [إضافة Feature جديدة خطوة بخطوة](#4-إضافة-feature-جديدة-خطوة-بخطوة)
-5. [شرح أجزاء المشروع](#5-شرح-أجزاء-المشروع)
-6. [حل المشاكل الشائعة](#6-حل-المشاكل-الشائعة)
-7. [قواعد الفريق](#7-قواعد-الفريق)
-8. [قيود ومشاكل معروفة](#8-قيود-ومشاكل-معروفة)
+4. [شرح أجزاء المشروع](#4-شرح-أجزاء-المشروع)
+5. [حل المشاكل الشائعة](#5-حل-المشاكل-الشائعة)
+6. [دليل CRUD كامل مع Validation](#6-دليل-crud-كامل-مع-validation)
 
 ---
 
@@ -59,7 +59,7 @@ $username = 'root';
 $password = '';
 ```
 
-الإعدادات الافتراضية دي بتشتغل على Laragon. لو عندك password مختلف عدّله **محلياً فقط ومتعملوش commit** (راجع [قواعد الفريق](#7-قواعد-الفريق)).
+الإعدادات الافتراضية دي بتشتغل على Laragon. لو عندك password مختلف عدّله **محلياً فقط ومتعملوش commit**.
 
 **3) شغّل الـ migrations (من جذر المشروع):**
 
@@ -186,157 +186,7 @@ Browser ──► index.php
 
 ---
 
-## 4. إضافة Feature جديدة خطوة بخطوة
-
-المثال هنا على **Products** (الـ view `resources/views/admin/index-products.php` جاهز، ومحتاج الـ routes والـ controller).
-
-### الخطوة 0: اعرف الـ view محتاج إيه
-
-افتح الـ view وشوف المتغيرات اللي بيستخدمها والـ `action` بتاع كل form. `index-products.php` مثلاً بيستخدم:
-
-- المتغيرات: `$products` و `$categories`
-- الـ forms: `POST /product/store` و `POST /product/update` و `POST /product/delete` (الـ id بيتبعت في hidden input اسمه `id`)
-
-### الخطوة 1: الـ Model
-
-موجود بالفعل في `app/Models`. لو الجدول جديد:
-
-```php
-<?php
-namespace App\Models;
-
-use core\database\traits\HasCrud;
-
-class Product extends Model
-{
-    use HasCrud;
-
-    protected string $table = 'products';
-}
-```
-
-### الخطوة 2: الـ Request (للـ validation)
-
-```php
-<?php
-namespace App\Http\Requests;
-
-use core\validation\Main;
-
-class ProductStoreRequest extends Main
-{
-    private function rules(): array
-    {
-        return [
-            'name'        => ['required', 'string', 'min:3', 'max:150'],
-            'category_id' => ['required', 'integer'],
-            'price'       => ['required', 'numeric'],
-            'stock'       => ['required', 'integer'],
-        ];
-    }
-
-    public function handle(): bool
-    {
-        return $this->validate($this->rules());
-    }
-}
-```
-
-### الخطوة 3: الـ Controller
-
-```php
-<?php
-namespace App\Http\Controllers\Admin;
-
-use core\view\Main;
-use App\Models\Product;
-use App\Models\Category;
-
-class ProductController extends Main
-{
-    public object $model;
-
-    public function __construct()
-    {
-        $this->model = new Product();
-    }
-
-    // GET: لازم ترجّع الـ view بـ return (مش echo)
-    public function index()
-    {
-        $products   = $this->model->all();
-        $categories = (new Category())->all();
-
-        return $this->view('admin/index-products', compact('products', 'categories'));
-    }
-
-    // POST: بتاخد $_POST، وبعدها redirect (مش view)
-    public function store($data)
-    {
-        $this->model->insert([
-            'category_id' => $data['category_id'],
-            'name'        => $data['name'],
-            'description' => $data['description'] ?? null,
-            'price'       => $data['price'],
-            'old_price'   => ($data['old_price'] ?? '') !== '' ? $data['old_price'] : null,
-            'stock'       => $data['stock'],
-            'is_active'   => $data['is_active'],
-        ]);
-
-        return header("Location:" . $GLOBALS['basePath'] . "/products/index");
-    }
-
-    public function delete($data)
-    {
-        $this->model->delete($data['id']);
-
-        return header("Location:" . $GLOBALS['basePath'] . "/products/index");
-    }
-}
-```
-
-> الأعمدة فوق مأخوذة من الـ view. **طابقها مع `database/migrations/008_products_table.php`** قبل ما تعتمدها (ممكن فيه أعمدة NOT NULL زيادة).
-
-### الخطوة 4: الـ Routes في `routes/web.php`
-
-```php
-use App\Http\Requests\ProductStoreRequest;
-
-Main::get('/products/index', ['Admin\ProductController', 'index']);
-Main::post('/product/store',  ['Admin\ProductController', 'store'], ProductStoreRequest::class);
-Main::post('/product/delete', ['Admin\ProductController', 'delete']);
-```
-
-- أول عنصر في الـ array هو مسار الكنترولر **بعد** `App\Http\Controllers\`، فـ `'Admin\ProductController'` = `App\Http\Controllers\Admin\ProductController`.
-- الـ Request class بيتحط كـ argument تالت وهو اختياري، وللـ `POST` فقط.
-
-### الخطوة 5: حدّث الـ autoload
-
-```bash
-composer dump-autoload
-```
-
-### الخطوة 6: جرّب
-
-افتح `http://localhost/<folder>/products/index` وجرّب الإضافة والحذف.
-
-### route فيه parameter (GET فقط)
-
-```php
-Main::get('/products/edit/{id}', ['Admin\ProductController', 'edit']);
-```
-
-```php
-public function edit($id)   // قيمة {id} بتوصل كـ argument
-{
-    $product = $this->model->find($id);
-    return $this->view('admin/edit-product', compact('product'));
-}
-```
-
----
-
-## 5. شرح أجزاء المشروع
+## 4. شرح أجزاء المشروع
 
 ### هيكل الفولدرات
 
@@ -403,74 +253,328 @@ index.php                                         نقطة الدخول الوح
 - لو مفيش route مطابق (أو الـ method مختلف) **مفيش صفحة 404**: بتطلع صفحة بيضاء.
 - الـ `$_FILES` مش بتتبعت للكنترولر. لو محتاج رفع ملفات استخدم `$_FILES` مباشرة جوه الميثود.
 
-### الـ Controllers
-
-- بيعملوا `extends core\view\Main` عشان ياخدوا دالة `view()`.
-- الـ Model بيتعمل في الـ constructor ويتخزن في `$this->model`.
-- التنظيم: `Admin/` للوحة التحكم، `Customer/` للعميل بعد تسجيل الدخول، `Storefront/` للصفحات العامة.
-
 ### الـ Models و `HasCrud`
+
+الموديل = كلاس بيمثل **جدول واحد** في الداتابيز. شكله:
+
+```php
+<?php
+namespace App\Models;
+
+use core\database\traits\HasCrud;
+
+class Product extends Model
+{
+    use HasCrud;
+
+    protected string $table = 'products';
+}
+```
+
+| الجزء | وظيفته |
+|---|---|
+| `namespace App\Models` | لازم يطابق الـ `use` في الكنترولر |
+| `extends Model` | `Model` كلاس abstract بيجهز `$this->db` (اتصال PDO) في الـ constructor. الاتصال Singleton: اتصال واحد بيتشارك بين كل الموديلز في الطلب الواحد |
+| `use HasCrud` | بيضيف الدوال الجاهزة (`all`, `find`, `where`, `insert`, `update`, `delete`) |
+| `protected string $table` | اسم الجدول، بيتحط في كل query. لازم يطابق اسم الجدول في الـ migration |
+
+**لعمل موديل جديد:** (1) migration للجدول (2) ملف الموديل في `app/Models` بنفس الشكل فوق (3) `composer dump-autoload`.
+
+الاستخدام من الكنترولر:
+
+```php
+$this->model = new Product();      // في الـ constructor
+$products = $this->model->all();   // في أي ميثود
+```
+
+#### دوال `HasCrud` (كلها بتتنادى على الـ object: `$this->model->...`)
+
+**`all()`: كل الصفوف**
+
+```php
+$products = $this->model->all();
+// [ ['id' => 1, 'name' => 'Shirt', ...], ['id' => 2, ...] ]
+// لو الجدول فاضي بترجع [] (array فاضي)
+```
+
+بدون ترتيب أو limit.
+
+**`find($id)`: صف واحد بالـ id**
+
+```php
+$product = $this->model->find(5);
+
+if (!$product) {
+    // مش موجود (بترجع false)
+}
+
+echo $product['name'];   // الصف array بمفاتيح أسماء الأعمدة
+```
+
+**`where($column, $operator, $value)`: صفوف بشرط واحد**
+
+```php
+$active   = $this->model->where('is_active', '=', 1);
+$lowStock = $this->model->where('stock', '<', 5);
+
+// أول نتيجة فقط (مثال تسجيل الدخول)
+$admins = $this->model->where('name', '=', $data['name']);
+$admin  = $admins[0] ?? null;
+```
+
+- بترجع **array دايماً** (ممكن فاضي)، حتى لو النتيجة صف واحد، فالصف الأول هو `[0]`.
+- العمليات المسموحة: `=` `>` `<` `>=` `<=` `!=` `<>`. غيرها بيرمي `InvalidArgumentException`.
+- اسم العمود حروف وأرقام و `_` فقط.
+- شرط واحد بس (مفيش AND / OR).
+
+**`insert(array $data)`: إضافة صف**
+
+```php
+$this->model->insert([
+    'name'  => $data['name'],
+    'price' => $data['price'],
+    'stock' => $data['stock'],
+]);
+```
+
+- مفاتيح الـ array = أسماء الأعمدة، والقيم = البيانات (القيم بتتبعت بـ prepared statement).
+- بترجع `bool`.
+- لازم تبعت كل الأعمدة اللي NOT NULL وملهاش default.
+- **أسماء الأعمدة بتتحط في الـ SQL كما هي**، فمتعملش `insert($_POST)` أبداً. ابني الـ array بإيدك عمود عمود.
+
+**`update($id, array $data)`: تعديل صف**
+
+```php
+$this->model->update(5, [
+    'price' => 120,
+    'stock' => 30,
+]);
+```
+
+- بيحدّث الأعمدة المبعوتة فقط (`WHERE id = ?`).
+- بترجع `bool`.
+- نفس تحذير الأعمدة في `insert`.
+
+**`delete($id)`: حذف صف**
+
+```php
+$this->model->delete(5);
+```
+
+بترجع `bool`. لو الصف مربوط بجداول تانية بـ foreign key ممكن الحذف يفشل برمي `PDOException`.
+
+> أي خطأ من الداتابيز (مثلاً إيميل مكرر على عمود `UNIQUE`) بيرمي `PDOException` لأن الاتصال شغال بـ `ERRMODE_EXCEPTION`.
+
+#### Query مخصص (join / order / limit / lastInsertId)
+
+`HasCrud` مفيهاش join أو ترتيب. اكتب ميثود خاصة **داخل الموديل** واستخدم `$this->db` (PDO) مباشرة، ودايماً بـ prepared statements:
 
 ```php
 class Product extends Model
 {
     use HasCrud;
+
     protected string $table = 'products';
+
+    // join + order
+    public function allWithCategory(): array
+    {
+        $stmt = $this->db->query(
+            "SELECT p.*, c.name AS category_name
+             FROM products p
+             LEFT JOIN categories c ON c.id = p.category_id
+             ORDER BY p.id DESC"
+        );
+
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+    // query فيه قيمة جاية من المستخدم
+    public function lowerThan(int $stock): array
+    {
+        $stmt = $this->db->prepare("SELECT * FROM products WHERE stock < ?");
+        $stmt->execute([$stock]);
+
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+    // إضافة وإرجاع الـ id الجديد
+    public function create(array $data): int
+    {
+        $this->insert($data);
+
+        return (int) $this->db->lastInsertId();
+    }
 }
 ```
 
-`Model` بيجهز `$this->db` (اتصال PDO واحد مشترك، Singleton) و `$this->table`.
+`$this->db` هو `protected`، يعني بيتستخدم جوه الموديل بس، مش من الكنترولر.
 
-| الدالة | بترجّع |
+### الـ Controllers
+
+الكنترولر هو اللي بيستقبل الطلب من الـ Router وبيكلّم الموديل وبيرجّع view أو بيعمل redirect.
+
+```php
+<?php
+namespace App\Http\Controllers\Admin;
+
+use core\view\Main;
+use App\Models\Product;
+use App\Models\Category;
+
+class ProductController extends Main
+{
+    public object $model;
+
+    public function __construct()
+    {
+        $this->model = new Product();
+    }
+
+    // GET /products/index
+    public function index()
+    {
+        $products   = $this->model->all();
+        $categories = (new Category())->all();   // موديل تاني
+
+        return $this->view('admin/index-products', compact('products', 'categories'));
+    }
+
+    // POST /product/store
+    public function store($data)
+    {
+        $this->model->insert([ /* ... */ ]);
+
+        return header("Location:" . $GLOBALS['basePath'] . "/products/index");
+    }
+}
+```
+
+| الجزء | الشرح |
 |---|---|
-| `all()` | array من الصفوف |
-| `find($id)` | صف واحد أو `false` |
-| `where($column, $operator, $value)` | array من الصفوف (شرط واحد فقط) |
-| `insert(array $data)` | `bool` |
-| `update($id, array $data)` | `bool` |
-| `delete($id)` | `bool` |
+| `namespace` | لازم يطابق مكان الملف. في الـ route بتكتبه نسبةً لـ `App\Http\Controllers\` فقط: `'Admin\ProductController'` |
+| `extends Main` | `Main` هنا هو `core\view\Main`، وبيدّيك دالة `$this->view()` |
+| `public object $model` + `__construct` | الـ Router بيعمل `new Controller()` **من غير arguments**، فأي تجهيز (زي إنشاء الموديل) بيتم في الـ constructor |
+| الـ public methods | كل ميثود بتتربط بـ route واحد (أو أكتر) في `web.php` |
+| ميثود GET | بتاخد الـ parameter (`$id`) لو الـ route فيه `{id}`، وبتعمل **`return`** لـ `$this->view(...)` (الـ Router هو اللي بيطبع القيمة) |
+| ميثود POST | بتاخد `$data` (= `$_POST` كاملة)، وبتنتهي بـ **redirect**. لو رجّعت view من POST مش هيتطبع |
+| الـ redirect | `header("Location:" . $GLOBALS['basePath'] . "/path")` |
+| ميثود `private` | دوال مساعدة داخلية مش مربوطة بأي route |
+| الـ Session | `$_SESSION` متاح في أي ميثود (راجع قسم Session) |
 
-- الـ `where` بتقبل العمليات: `= > < >= <= != <>` فقط.
-- مفيش `join` أو `orderBy` أو `limit`. لو محتاجهم اكتب ميثود خاصة في الموديل واستخدم `$this->db` (PDO) مباشرة مع prepared statements.
-- **أسماء الأعمدة في `insert`/`update` بتتحط في الـ SQL كما هي**، فاتجنب `insert($_POST)` تماماً. ابني الـ array بإيدك عمود عمود (زي ما في الأمثلة)، وإلا هتفتح باب SQL Injection.
-- لو محتاج الـ id بتاع آخر سطر اتضاف: `$this->db->lastInsertId()`.
+`$this->view('admin/index-products', compact('products', 'categories'))`: الأول مسار الـ view نسبةً لـ `resources/views` وبدون `.php`، والتاني array المتغيرات اللي هتوصل للـ view.
 
 ### الـ Validation (`core/valedation`)
 
-بيشتغل على `$_POST` مباشرة. الاستخدام: Request class + تمريرها للـ route (راجع [الخطوة 2](#الخطوة-2-الـ-request-للـ-validation)).
+#### الفكرة
 
-الصيغة: `'rule'` أو `'rule:param1,param2'`.
-
-| القاعدة | الوصف |
-|---|---|
-| `required` | موجود وغير فارغ |
-| `string` / `numeric` / `integer` / `boolean` | نوع القيمة |
-| `email` | صيغة إيميل |
-| `min:n` / `max:n` | **طول** النص أو عدد عناصر الـ array، أو القيمة لو الرقم مش string |
-| `alpha` | حروف فقط (بدون مسافات) |
-| `alphaNumeric` | حروف وأرقام فقط |
-| `regex:/pattern/` | تعبير نمطي (بدون فاصلة `,` داخله، لأن الفاصلة بتفصل الـ parameters) |
-| `confirmed` / `same` | غير شغالين صح حالياً (راجع القيود) |
-
-عند الفشل:
-
-1. بيتخزن في `$_SESSION['valedation'][<field>]` رسالة بالشكل: `The {field} field failed the {rule} rule.` (أول قاعدة فاشلة لكل حقل).
-2. بيعمل redirect للصفحة السابقة.
-3. الكنترولر **مش بيتنفذ**.
-
-عرض الخطأ في الـ view:
+لكل form بتعمل **Request class** فيه قواعد كل حقل، وبتربطه بالـ route كـ argument تالت. الـ Router بينفذ الـ validation **قبل** الكنترولر.
 
 ```php
-<?php if (!empty($_SESSION['valedation']['name'])): ?>
-    <div class="text-danger"><?= htmlspecialchars($_SESSION['valedation']['name']) ?></div>
+<?php
+namespace App\Http\Requests;
+
+use core\validation\Main;
+
+class ProductStoreRequest extends Main
+{
+    private function rules(): array
+    {
+        return [
+            'name'  => ['required', 'string', 'min:3', 'max:150'],
+            'price' => ['required', 'numeric'],
+        ];
+    }
+
+    public function handle(): bool
+    {
+        return $this->validate($this->rules());
+    }
+}
+```
+
+```php
+// routes/web.php
+use App\Http\Requests\ProductStoreRequest;
+
+Main::post('/product/store', ['Admin\ProductController', 'store'], ProductStoreRequest::class);
+```
+
+- `rules()` بترجع array: **اسم الحقل (نفس `name` في الـ form)** => array من القواعد.
+- `handle()` لازم تكون `public` وترجّع `bool`، والـ Router هو اللي بينادي عليها.
+- القيم بتتقرأ من `$_POST` مباشرة.
+- الصيغة: `'rule'` أو `'rule:param'` أو `'rule:param1,param2'`.
+
+#### كل القواعد المتاحة
+
+| القاعدة | بتنجح لما | مثال في `rules()` | أمثلة قيم |
+|---|---|---|---|
+| `required` | الحقل موجود وغير فاضي (ومش مسافات بس) | `'name' => ['required']` | `'Ali'` ينجح، `''` أو `'   '` يفشل |
+| `string` | القيمة نص | `'name' => ['string']` | قيم الـ forms كلها نصوص، فبتنجح تقريباً دايماً |
+| `numeric` | رقم صحيح أو عشري | `'price' => ['required', 'numeric']` | `'10'` و `'10.5'` ينجحوا، `'abc'` و `''` يفشلوا |
+| `integer` | رقم صحيح | `'stock' => ['required', 'integer']` | `'5'` ينجح، `'5.5'` و `''` يفشلوا |
+| `boolean` | `0` أو `1` فقط | `'is_active' => ['boolean']` | `'0'` و `'1'` ينجحوا، `'yes'` يفشل |
+| `email` | صيغة إيميل صحيحة | `'email' => ['required', 'email']` | `'a@b.com'` ينجح، `'a@b'` و `''` يفشلوا |
+| `min:n` | **طول** النص على الأقل n | `'password' => ['required', 'min:8']` | `min:8`: `'12345678'` ينجح، `'1234'` يفشل |
+| `max:n` | طول النص على الأكثر n | `'name' => ['max:150']` | `max:5`: `'abcde'` ينجح، `'abcdef'` يفشل |
+| `alpha` | حروف فقط (عربي وإنجليزي)، بدون مسافات أو أرقام | `'name' => ['alpha']` | `'Mohamed'` ينجح، `'Mohamed Ali'` و `'Ali2'` يفشلوا |
+| `alphaNumeric` | حروف وأرقام فقط، بدون مسافات | `'code' => ['alphaNumeric']` | `'AB12'` ينجح، `'AB 12'` يفشل |
+| `regex:/pattern/` | القيمة تطابق التعبير النمطي (بالـ delimiters) | `'phone' => ['regex:/^01[0-9]{9}$/']` | `'01012345678'` ينجح، `'12345'` يفشل |
+| `confirmed:field` و `same:field` | **مش شغالين حالياً** | | بيقارنوا بنص اسم الحقل مش بقيمته، فبيفشلوا دايماً. متستخدموهمش لحد ما يتعدلوا |
+
+ملاحظات على القواعد:
+
+- `min` و `max` بيقيسوا **طول النص** حتى لو الحقل رقم (قيم الـ form كلها نصوص). عشان تتأكد إن القيمة رقم استخدم `numeric` أو `integer` مش `min`.
+- الـ `regex` ماينفعش يحتوي فاصلة `,` لأنها بتفصل الـ parameters. فمثلاً `{1,3}` ممنوعة، واستخدم `{3}` أو `+` أو `*`.
+- `min:8` بتتكتب مرة واحدة والرقم بعد `:`، ومفيش مسافات.
+
+#### قواعد التنفيذ (مهمة)
+
+1. القواعد بتتفحص **بالترتيب**، وأول قاعدة تفشل بتوقف باقي قواعد نفس الحقل. فحط `required` الأول.
+2. القواعد غير `required` بتنجح لو الحقل **غير مُرسل** (`null`). فلو الحقل إجباري لازم تحط `required`.
+3. لو الحقل **مُرسل فاضي** (`''`) بيتفحص عادي، و`''` بتفشل `numeric` و `integer` و `email` و `boolean`. فالحقل **الاختياري** اللي ممكن يتبعت فاضي (زي `old_price` في form المنتجات) **متحطش عليه** القواعد دي.
+4. أي حقل مالوش قواعد في `rules()` مش بيتفحص خالص.
+5. لو اسم القاعدة مش موجود بيرمي `InvalidArgumentException`.
+
+#### لما الـ validation يفشل
+
+1. الكنترولر **مش بيتنفذ**.
+2. بيتخزن لكل حقل فشل رسالة في `$_SESSION['valedation'][<field>]` بالشكل: `The price field failed the numeric rule.`
+3. المستخدم بيرجع للصفحة السابقة (redirect لـ `previousUrl`).
+
+الـ session بتتصفّر في بداية أي `validate()` جديد، لكن مش بتتمسح لوحدها بعد العرض.
+
+عرض الأخطاء في الـ view **اختياري** (الـ CRUD بيشتغل من غيره):
+
+```php
+<?php if (!empty($_SESSION['valedation'])): ?>
+    <div class="alert alert-danger">
+        <?php foreach ($_SESSION['valedation'] as $message): ?>
+            <div><?= htmlspecialchars($message) ?></div>
+        <?php endforeach; ?>
+    </div>
+    <?php unset($_SESSION['valedation']); ?>
 <?php endif; ?>
 ```
 
-> الأخطاء **مش بتتمسح تلقائياً** من الـ session. بتتصفّر في بداية أي `validate()` جديد، لكن لو الصفحة اتفتحت بدون validation جديد هتفضل ظاهرة. وكمان القيم القديمة للـ inputs مش بتتحفظ (مفيش `old()`).
-> القواعد غير `required` بتعدّي لو الحقل `null` (مش مُرسل)، لكن الحقل المُرسل فاضي `''` بيتفحص عادي.
+#### إضافة قاعدة جديدة
+
+اسم القاعدة = اسم ميثود في `core/valedation/traits/Validation.php`. أول parameter هو القيمة، وبعده الـ parameters اللي بعد `:`. لازم ترجّع `bool`:
+
+```php
+public function startsWith($value, string $prefix): bool
+{
+    return $value === null || str_starts_with($value, $prefix);
+}
+```
+
+```php
+'phone' => ['required', 'startsWith:01'],
+```
 
 ### الـ Views (`resources/views`)
 
+- **الـ Views جاهزة بالكامل ومش ناقصها حاجة.** أي حد يشتغل على CRUD مطلوب منه الـ routes والكنترولر (والـ Request) فقط، ومش محتاج يعدّل أو يضيف ملفات view.
 - ملفات PHP عادية، بتُستدعى من الكنترولر: `$this->view('admin/index-products', compact('products'))`.
 - مسار الـ view نسبةً لـ `resources/views` وبدون `.php`.
 - المتغيرات لازم تتبعت **كـ associative array** (استخدم `compact()`)، لأن الـ view بيعمل `extract` فكل key بيبقى متغير.
@@ -511,7 +615,7 @@ return "
 
 ---
 
-## 6. حل المشاكل الشائعة
+## 5. حل المشاكل الشائعة
 
 | العَرَض | السبب المحتمل | الحل |
 |---|---|---|
@@ -526,49 +630,226 @@ return "
 
 ---
 
-## 7. قواعد الفريق
-
-> القواعد دي مقترحة، عدّلوها حسب اتفاقكم.
-
-- **بعد أي `git pull` فيه كلاسات جديدة: `composer dump-autoload`.**
-- اسم الكلاس = اسم الملف، بالـ StudlyCase وإملاء صحيح. **ماتنسخوش الأخطاء القديمة** (`Requst`, `valedation`).
-- كل رابط أو redirect أو asset لازم يبدأ بـ `$GLOBALS['basePath']`.
-- متستخدمش `insert($_POST)` أبداً. ابني الـ array يدوياً.
-- متعملش commit لـ `config/dataBase.php` لو غيّرته لبيئتك.
-- ماتغيّرش أسماء مفاتيح الـ session الحالية.
-- Feature واحدة = branch واحد.
-
 ---
 
-## 8. قيود ومشاكل معروفة
+## 6. دليل CRUD كامل مع Validation
 
-**الـ Router**
-- parameter واحد فقط، وللـ `GET` فقط.
-- مفيش صفحة 404 (بتطلع صفحة بيضاء).
-- مفيش Middleware.
-- مفيش `$_FILES` في الـ POST handlers.
+**الـ Views بتاعة لوحة الأدمن كاملة ومش ناقصها حاجة** (الجداول، ومودالات الإضافة والتعديل والحذف، والـ JavaScript اللي بيملا الـ id وباقي القيم). ولا فيه حاجة محتاجة تتعمل في الـ views.
+اللي ناقص فعلاً وهو شغلك: **Routes + Controller methods + Request classes**. والـ Models موجودة بالفعل في `app/Models`.
 
-**الأمان**
-- **مسارات الأدمن (`/admin/...`) غير محمية**: أي حد يقدر يفتحها من غير تسجيل دخول، ومفيش فحص لـ `$_SESSION['admin']` في أي مكان.
-- مفيش حماية CSRF.
-- جذر المشروع هو الـ DocumentRoot، فملفات زي `migrate.php` و `config/` ممكن تتفتح من المتصفح لو الـ rewrite سمح. **ده لازم يتقفل قبل أي deploy.**
+المثال هنا على **Products**، والخطوات نفسها بتتكرر لأي جدول تاني (Categories / Users / Orders / Admins).
 
-**الـ basePath**
-- أماكن الـ redirect مش موحّدة، فممكن تظهر slashes متكررة في الرابط (زي `//`) وده مش بيأثر على التشغيل. الشكل الأنظف: `basePath . previousUrl`.
+### الخطوة 1: اقرأ الـ view
 
-**الـ Validation**
-- `confirmed` و `same` بيقارنوا القيمة بـ **اسم** الحقل الثاني كنص مش بقيمته، فبتفشل دايماً.
-- `min`/`max` على القيم الرقمية المبعوتة من الـ form بتتعامل معاها كنص (بتقيس الطول).
-- `regex` ماينفعش يحتوي فاصلة `,` (زي `{1,3}`).
+افتح الـ view (`resources/views/admin/index-products.php`) وسجّل 3 حاجات: المتغيرات اللي بيستخدمها، والـ `action` لكل form، وأسماء الحقول (`name="..."`):
 
-**الـ Migrations**
-- مش بتتتبع اللي اتنفذ، فمش آمن تشغيلها مرتين.
-- ملف `001_users_table.php` بيستخدم `CREATE TABLE` بدون `IF NOT EXISTS` (راجع باقي الملفات).
+| من الـ view | القيمة |
+|---|---|
+| المتغيرات | `$products` و `$categories` |
+| صفحة العرض | `GET /products/index` |
+| form الإضافة | `POST /product/store` وحقوله: `name`, `category_id`, `description`, `price`, `old_price`, `stock`, `is_active` |
+| form التعديل | `POST /product/update` ونفس الحقول + `id` |
+| form الحذف | `POST /product/delete` وحقله: `id` |
 
-**كود محتاج مراجعة**
-- `AdminController::index` بيرجّع بيانات ثابتة (hardcoded) بدل `$this->model->all()`.
-- `AdminController::profileUpdate`: لو الباسورد القديم غلط مفيش أي تحديث ولا رسالة للمستخدم.
-- `AdminController::login`: لو الاسم مش موجود بيحصل `Undefined array key 0`.
-- أخطاء إملائية في أسماء ملفات وفولدرات ومفاتيح: `valedation`, `Requst`, `lgoinError`, `prfilePassword`.
-- Routes الـ CRUD (products / categories / orders / users / admins) لسه غير معرّفة، والـ views بتاعتها جاهزة.
-- ما فيش route مُعرَّف لعرض صفحة تسجيل دخول الأدمن (`admin/auth/login.php`) ولا لـ `AdminController::logout` و `store`.
+كل form بيبعت `id` في hidden input (راجع شرح الـ delete)، فمفيش route فيه `{id}` ومفيش صفحة تعديل منفصلة: التعديل والحذف بيتم من مودالات في نفس الصفحة.
+
+### الخطوة 2: الـ Request classes (الـ validation)
+
+`app/Http/Requests/ProductStoreRequest.php`:
+
+```php
+<?php
+namespace App\Http\Requests;
+
+use core\validation\Main;
+
+class ProductStoreRequest extends Main
+{
+    private function rules(): array
+    {
+        return [
+            'name'        => ['required', 'string', 'min:3', 'max:150'],
+            'category_id' => ['required', 'integer'],
+            'price'       => ['required', 'numeric'],
+            'stock'       => ['required', 'integer'],
+            'is_active'   => ['boolean'],
+            // description و old_price اختياريين ويتبعتوا فاضيين '' فمفيش عليهم قواعد
+        ];
+    }
+
+    public function handle(): bool
+    {
+        return $this->validate($this->rules());
+    }
+}
+```
+
+`app/Http/Requests/ProductUpdateRequest.php`: نفس الشكل بنفس القواعد + الـ id:
+
+```php
+<?php
+namespace App\Http\Requests;
+
+use core\validation\Main;
+
+class ProductUpdateRequest extends Main
+{
+    private function rules(): array
+    {
+        return [
+            'id'          => ['required', 'integer'],
+            'name'        => ['required', 'string', 'min:3', 'max:150'],
+            'category_id' => ['required', 'integer'],
+            'price'       => ['required', 'numeric'],
+            'stock'       => ['required', 'integer'],
+            'is_active'   => ['boolean'],
+        ];
+    }
+
+    public function handle(): bool
+    {
+        return $this->validate($this->rules());
+    }
+}
+```
+
+الحذف مش محتاج Request (الـ id جاي من hidden input). لو عايز تتأكد منه اعمل `ProductDeleteRequest` بقاعدة `'id' => ['required', 'integer']`.
+
+### الخطوة 3: الـ Controller
+
+`app/Http/Controllers/Admin/ProductController.php`:
+
+```php
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use core\view\Main;
+use App\Models\Product;
+use App\Models\Category;
+
+class ProductController extends Main
+{
+    public object $model;
+
+    public function __construct()
+    {
+        $this->model = new Product();
+    }
+
+    // READ: GET /products/index
+    public function index()
+    {
+        $products   = $this->model->all();
+        $categories = (new Category())->all();
+
+        return $this->view('admin/index-products', compact('products', 'categories'));
+    }
+
+    // CREATE: POST /product/store
+    public function store($data)
+    {
+        $this->model->insert($this->fields($data));
+
+        return header("Location:" . $GLOBALS['basePath'] . "/products/index");
+    }
+
+    // UPDATE: POST /product/update
+    public function update($data)
+    {
+        $this->model->update($data['id'], $this->fields($data));
+
+        return header("Location:" . $GLOBALS['basePath'] . "/products/index");
+    }
+
+    // DELETE: POST /product/delete
+    public function delete($data)
+    {
+        $this->model->delete($data['id']);
+
+        return header("Location:" . $GLOBALS['basePath'] . "/products/index");
+    }
+
+    // دالة مساعدة (مش مربوطة بـ route): بتجهز الأعمدة يدوياً للـ insert والـ update
+    private function fields(array $data): array
+    {
+        return [
+            'category_id' => $data['category_id'],
+            'name'        => $data['name'],
+            'description' => $data['description'] ?? null,
+            'price'       => $data['price'],
+            'old_price'   => ($data['old_price'] ?? '') !== '' ? $data['old_price'] : null,
+            'stock'       => $data['stock'],
+            'is_active'   => $data['is_active'],
+        ];
+    }
+}
+```
+
+- `old_price` الفاضي بيتحول لـ `null` عشان عمود الأرقام ميرفضش `''`.
+- **طابق الأعمدة في `fields()` مع `database/migrations/008_products_table.php`** قبل ما تعتمدها (ممكن فيه أعمدة NOT NULL تانية).
+
+### الخطوة 4: الـ Routes
+
+في `routes/web.php`، ضيف الـ `use` فوق، والـ routes مع باقي الـ routes:
+
+```php
+use App\Http\Requests\ProductStoreRequest;
+use App\Http\Requests\ProductUpdateRequest;
+
+Main::get('/products/index',  ['Admin\ProductController', 'index']);   // موجود بالفعل
+Main::post('/product/store',  ['Admin\ProductController', 'store'],  ProductStoreRequest::class);
+Main::post('/product/update', ['Admin\ProductController', 'update'], ProductUpdateRequest::class);
+Main::post('/product/delete', ['Admin\ProductController', 'delete']);
+```
+
+### الخطوة 5: حدّث الـ autoload
+
+```bash
+composer dump-autoload
+```
+
+لأن في كلاسات جديدة (الـ Requests والـ Controller).
+
+### الخطوة 6: جرّب
+
+- افتح `/products/index` ولازم الجدول يظهر.
+- **إضافة**: املا الـ form وابعت، المنتج يظهر في الجدول.
+- **Validation**: ابعت اسم من حرفين أو سعر `abc`، المفروض ترجع للصفحة من غير ما يتضاف حاجة.
+- **تعديل**: اضغط أيقونة التعديل، غيّر قيمة، احفظ.
+- **حذف**: اضغط أيقونة الحذف وأكّد.
+
+### ملخص: العملية بتمشي إزاي
+
+| العملية | Route | Request | ميثود الكنترولر | ميثود الموديل |
+|---|---|---|---|---|
+| عرض | `GET /products/index` | لا | `index()` | `all()` |
+| إضافة | `POST /product/store` | `ProductStoreRequest` | `store($data)` | `insert()` |
+| تعديل | `POST /product/update` | `ProductUpdateRequest` | `update($data)` | `update()` |
+| حذف | `POST /product/delete` | لا | `delete($data)` | `delete()` |
+
+### لتكرار الخطوات على جدول تاني
+
+1. افتح الـ view بتاعه وسجّل: المتغيرات، وكل `action`، وأسماء الحقول.
+2. تأكد إن الموديل موجود في `app/Models` (وإلا اعمله).
+3. اعمل Request لكل form ليه حقول محتاجة تتفحص.
+4. اعمل الكنترولر بنفس شكل `ProductController` (نفس الأربع ميثودز).
+5. سجّل الـ routes **بنفس الـ URLs اللي في الـ forms بالظبط**.
+6. `composer dump-autoload` وجرّب.
+
+### route فيه parameter في الرابط (لو احتجته)
+
+الـ GET بس بيدعم parameter واحد بصيغة `{id}`:
+
+```php
+Main::get('/products/show/{id}', ['Admin\ProductController', 'show']);
+```
+
+```php
+public function show($id)   // قيمة {id} بتوصل كـ argument
+{
+    $product = $this->model->find($id);
+
+    return $this->view('admin/show-product', compact('product'));
+}
+```
