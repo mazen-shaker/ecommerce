@@ -5,11 +5,11 @@ namespace core\view;
 class Main
 {
 
-function view(string $name, $data = null): string {
+function view(string $name,$data = null): string {
        
     $path = "./resources/views/{$name}.php";
-
-    extract($data);
+    
+    $data != null ? extract($data) : $data;
 
     ob_start();
     require $path;

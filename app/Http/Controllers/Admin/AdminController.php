@@ -14,6 +14,54 @@ class AdminController extends Main
         $this->model = new Admin();
     }
 
+
+
+    public function index(){
+$admins = [
+    [
+        'id'         => 1,
+        'name'       => 'Super Admin',
+        'email'      => 'admin@example.com',
+        'password'   => password_hash('admin123', PASSWORD_BCRYPT),
+        'phone'      => '20100000001',
+        'created_at' => '2026-10-01 08:00:00',
+        'updated_at' => '2026-10-01 08:00:00',
+    ],
+    [
+        'id'         => 2,
+        'name'       => 'Mohamed Ali',
+        'email'      => 'mohamed.admin@example.com',
+        'password'   => password_hash('admin123', PASSWORD_BCRYPT),
+        'phone'      => '20100000002',
+        'created_at' => '2026-10-05 10:30:00',
+        'updated_at' => '2026-10-20 14:15:00',
+    ],
+    [
+        'id'         => 3,
+        'name'       => 'Hana Samir',
+        'email'      => 'hana.admin@example.com',
+        'password'   => password_hash('admin123', PASSWORD_BCRYPT),
+        'phone'      => '20100000003',
+        'created_at' => '2026-10-10 12:45:00',
+        'updated_at' => '2026-10-10 12:45:00',
+    ],
+    [
+        'id'         => 4,
+        'name'       => 'Karim Hassan',
+        'email'      => 'karim.admin@example.com',
+        'password'   => password_hash('admin123', PASSWORD_BCRYPT),
+        'phone'      => '20100000004',
+        'created_at' => '2026-10-15 09:20:00',
+        'updated_at' => '2026-11-01 16:40:00',
+    ],
+];
+
+
+    return $this->view('admin/index-admins',compact('admins'));
+
+    }
+
+
     public function store($data) {
         
     $this->model->insert([

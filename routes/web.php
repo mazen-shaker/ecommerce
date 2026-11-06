@@ -24,6 +24,9 @@ Main::post('/admin/login', ['Admin\AdminController', 'login']);
 Main::get('/admin', ['Admin\DashboardController', 'index']);
 Main::get('/users/index', ['Admin\UserController', 'index']);
 Main::get('/categories/index', ['Admin\CategoryController', 'index']);
+Main::get('/products/index', ['Admin\ProductController', 'index']);
+Main::get('/orders/index', ['Admin\OrderController', 'index']);
+Main::get('/admins/index', ['Admin\AdminController', 'index']);
 
-
+// Main::get('/categories/destroy/{id}', ['Admin\CategoryController', 'destroy']);
 
