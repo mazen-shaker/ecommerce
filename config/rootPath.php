@@ -3,32 +3,24 @@
 function normalizeUrlPath(string $path): string
 {
     $path = str_replace('\\', '/', $path);
-    $path = trim($path, '/');
 
-    return $path === '' ? '/' : '/' . $path;
-}
-
-function removeBasePath(string $path, string $basePath): string
-{
-    if (
-        $basePath !== '/' &&
-        ($path === $basePath ||
-         str_starts_with($path, $basePath . '/'))
-    ) {
-        $path = substr($path, strlen($basePath));
-    }
-
-    return normalizeUrlPath($path);
+    return '/' . trim($path, '/');
 }
 
 
 // Base Path
 
-$scriptDirectory = dirname(
-    str_replace('\\', '/', $_SERVER['SCRIPT_NAME'] ?? '/')
+$scriptName = str_replace(
+    '\\',
+    '/',
+    $_SERVER['SCRIPT_NAME'] ?? '/'
 );
 
-$GLOBALS['basePath'] = normalizeUrlPath($scriptDirectory);
+$scriptDirectory = dirname($scriptName);
+
+$GLOBALS['basePath'] = $scriptDirectory === '/'
+    ? ''
+    : rtrim($scriptDirectory, '/');
 
 
 // Request URL
@@ -40,10 +32,17 @@ $requestPath = parse_url(
 
 $requestPath = normalizeUrlPath($requestPath);
 
-$GLOBALS['requestUrl'] = removeBasePath(
-    $requestPath,
-    $GLOBALS['basePath']
-);
+$basePath = $GLOBALS['basePath'];
+
+if (
+    $basePath !== '' &&
+    ($requestPath === $basePath ||
+     str_starts_with($requestPath, $basePath . '/'))
+) {
+    $requestPath = substr($requestPath, strlen($basePath));
+}
+
+$GLOBALS['requestUrl'] = normalizeUrlPath($requestPath);
 
 
 // Previous URL
@@ -55,8 +54,13 @@ $refererPath = parse_url(
 
 $refererPath = normalizeUrlPath($refererPath);
 
-$GLOBALS['previousUrl'] = removeBasePath(
-    $refererPath,
-    $GLOBALS['basePath']
-);
+if (
+    $basePath !== '' &&
+    ($refererPath === $basePath ||
+     str_starts_with($refererPath, $basePath . '/'))
+) {
+    $refererPath = substr($refererPath, strlen($basePath));
+}
+
+$GLOBALS['previousUrl'] = normalizeUrlPath($refererPath);
 
