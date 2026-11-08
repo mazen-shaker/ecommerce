@@ -18,9 +18,8 @@ $scriptName = str_replace(
 
 $scriptDirectory = dirname($scriptName);
 
-$GLOBALS['basePath'] = $scriptDirectory === '/'
-    ? ''
-    : rtrim($scriptDirectory, '/');
+$GLOBALS['basePath'] = $scriptDirectory === ''; // بص كدا 
+// اشتغل من امبارح لما عملته كدا 
 
 
 // Request URL
@@ -37,7 +36,7 @@ $basePath = $GLOBALS['basePath'];
 if (
     $basePath !== '' &&
     ($requestPath === $basePath ||
-     str_starts_with($requestPath, $basePath . '/'))
+        str_starts_with($requestPath, $basePath . '/'))
 ) {
     $requestPath = substr($requestPath, strlen($basePath));
 }
@@ -57,10 +56,9 @@ $refererPath = normalizeUrlPath($refererPath);
 if (
     $basePath !== '' &&
     ($refererPath === $basePath ||
-     str_starts_with($refererPath, $basePath . '/'))
+        str_starts_with($refererPath, $basePath . '/'))
 ) {
     $refererPath = substr($refererPath, strlen($basePath));
 }
 
 $GLOBALS['previousUrl'] = normalizeUrlPath($refererPath);
-

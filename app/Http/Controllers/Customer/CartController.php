@@ -13,4 +13,8 @@ class CartController extends Main
     {
         $this->model = new Cart();
     }
+    public function index()
+    {
+        return $this->view('user/product-details');
+    }
 }
