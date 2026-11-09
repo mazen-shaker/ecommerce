@@ -18,9 +18,9 @@ $scriptName = str_replace(
 
 $scriptDirectory = dirname($scriptName);
 
-$GLOBALS['basePath'] = $scriptDirectory === '/'
+$GLOBALS['basePath'] = ($scriptDirectory === '/' || $scriptDirectory === '\\')
     ? ''
-    : rtrim($scriptDirectory, '/');
+    : rtrim($scriptDirectory, '/\\');
 
 
 // Request URL
