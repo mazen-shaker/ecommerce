@@ -7,11 +7,10 @@ $breadcrumbs = [
 
 include __DIR__ . '/layouts/head.php';
 include __DIR__ . '/layouts/header.php';
-require_once dirname(__FILE__) . "/products.php";
 ?>
 
 <!-- Slider Area Start -->
-<section class="slider_section d-flex align-items-center" data-bgimg="assets/user/img/slider/slider3.jpg">
+<section class="slider_section d-flex align-items-center" data-bgimg="assets/img/slider/slider3.jpg">
     <div class="slider_area owl-carousel">
 
         <div class="single_slider d-flex align-items-center">
@@ -28,7 +27,7 @@ require_once dirname(__FILE__) . "/products.php";
 
                     <div class="col-xl-6 col-md-6">
                         <div class="slider_content">
-                            <img src="assets/user/img/product/1.png" alt="">
+                            <img src="assets/img/product/1.png" alt="">
                         </div>
                     </div>
                 </div>
@@ -49,7 +48,7 @@ require_once dirname(__FILE__) . "/products.php";
 
                     <div class="col-xl-6 col-md-6">
                         <div class="slider_content">
-                            <img src="<assets/user/img/product/2.png" alt="">
+                            <img src="<assets/img/product/2.png" alt="">
                         </div>
                     </div>
                 </div>
@@ -70,7 +69,7 @@ require_once dirname(__FILE__) . "/products.php";
 
                     <div class="col-xl-6 col-md-6">
                         <div class="slider_content">
-                            <img src="assets/user/img/product/3.png" alt="">
+                            <img src="assets/img/product/3.png" alt="">
                         </div>
                     </div>
                 </div>
@@ -99,11 +98,11 @@ require_once dirname(__FILE__) . "/products.php";
                 <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
                     <div class="single-tranding">
 
-                        <a href="<?= $GLOBALS['basePath'] ?>product-details?id=<?= $product['id'] ?>">
+                        <a href="<?= $GLOBALS['basePath'] ?>product/product-details?id=<?= $product['id'] ?>">
 
                             <div class="tranding-pro-img">
                                 <img
-                                    src="assets/user/img/product/tranding-1.jpg"
+                                    src="../../../assets/img/product/tranding-1.jpg"
                                     alt="<?= htmlspecialchars($product['name']) ?>">
                             </div>
 
@@ -136,7 +135,7 @@ require_once dirname(__FILE__) . "/products.php";
                         </a>
 
                         <div class="text-center mt-3 mb-3">
-                            <a href="<?= $GLOBALS['basePath'] ?>add-to-cart?id=<?= $product['id'] ?>"
+                            <a href="<?= $GLOBALS['basePath'] ?>cart?id=<?= $product['id'] ?>"
                                 class="btn btn-dark rounded-pill px-4 py-2">
                                 <i class="fa fa-shopping-cart mr-2"></i>
                                 Add To Cart
@@ -171,7 +170,7 @@ require_once dirname(__FILE__) . "/products.php";
                     <figure>
                         <div class="blog_thumb">
                             <a href="/blog-details">
-                                <img src="assets/user/img/blog/blog2.jpg" alt="">
+                                <img src="assets/img/blog/blog2.jpg" alt="">
                             </a>
                         </div>
 
@@ -201,7 +200,7 @@ require_once dirname(__FILE__) . "/products.php";
                     <figure>
                         <div class="blog_thumb">
                             <a href="/blog-details">
-                                <img src="assets/user/img/blog/blog1.jpg" alt="">
+                                <img src="assets/img/blog/blog1.jpg" alt="">
                             </a>
                         </div>
 
@@ -231,7 +230,7 @@ require_once dirname(__FILE__) . "/products.php";
                     <figure>
                         <div class="blog_thumb">
                             <a href="/blog-details">
-                                <img src="assets/user/img/blog/blog-details.jpg" alt="">
+                                <img src="assets/img/blog/blog-details.jpg" alt="">
                             </a>
                         </div>
 

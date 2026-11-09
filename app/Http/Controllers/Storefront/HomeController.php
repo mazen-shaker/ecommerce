@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Storefront;
 
+use App\testDataBase\getData;
 use core\view\Main;
 
 class HomeController extends Main
@@ -9,7 +10,9 @@ class HomeController extends Main
 
     public function index()
     {
-        return $this->view('user/index');
-    }
+        $products = new getData();
 
+        $products = $products->get();
+        return $this->view('user/index', compact('products'));
+    }
 }

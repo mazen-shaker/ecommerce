@@ -29,23 +29,20 @@ include __DIR__ . '/layouts/header.php';
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td class="product_thumb"><a href="#"><img src="assets/img/s-product/product.jpg" alt=""></a></td>
-                                        <td class="product_name"><a href="#">Handbag fringilla</a></td>
-                                        <td class="product-price">$65.00</td>
-                                        <td class="product_quantity"><label>Quantity</label> <input min="1" max="100" value="1" type="number"></td>
-                                        <td class="product_total">$130.00</td>
-                                        <td class="product_remove"><a href="#"><i class="ion-android-close"></i></a></td>
-                                    </tr>
+                                    <?php
 
-                                    <tr>
-                                        <td class="product_thumb"><a href="#"><img src="assets/img/s-product/product2.jpg" alt=""></a></td>
-                                        <td class="product_name"><a href="#">Handbags justo</a></td>
-                                        <td class="product-price">$90.00</td>
-                                        <td class="product_quantity"><label>Quantity</label> <input min="1" max="100" value="1" type="number"></td>
-                                        <td class="product_total">$180.00</td>
-                                        <td class="product_remove"><a href="#"><i class="ion-android-close"></i></a></td>
-                                    </tr>
+                                    foreach ($carts ?? [] as $cart):
+                                    ?>
+                                        <tr>
+                                            <td class="product_thumb"><a href="#"><img src="assets/img/s-product/product.jpg" alt=""></a></td>
+                                            <td class="product_name"><a href="#"><?= $cart['name'] ?? [] ?></a></td>
+                                            <td class="product-price">$65.00</td>
+                                            <td class="product_quantity"><label>Quantity</label> <input min="1" max="100" value="1" type="number"></td>
+                                            <td class="product_total">$130.00</td>
+                                            <td class="product_remove"><a href="#"><i class="ion-android-close"></i></a></td>
+                                        </tr>
+                                    <?php endforeach;
+                                    ?>
 
                                 </tbody>
                             </table>

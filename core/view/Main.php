@@ -5,15 +5,16 @@ namespace core\view;
 class Main
 {
 
-function view(string $name, $data = null): string {
-    $path = "./resources/views/{$name}.php";
+    function view(string $name, $data = null): string
+    {
+        $path = "./resources/views/{$name}.php";
 
-    $data = $data ?? null;
+        $data = $data ?? null;
 
-    ob_start();
-    require $path;
+        ob_start();
+        extract($data ?? []);
+        require $path;
 
-    return ob_get_clean(); 
-}
-
+        return ob_get_clean();
+    }
 }

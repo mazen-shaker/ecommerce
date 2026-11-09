@@ -54,6 +54,7 @@ class ComposerStaticInit71533b2cc82eb17c2325b06cb2d69188
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
         'App\\Models\\Wishlist' => __DIR__ . '/../..' . '/app/Models/Wishlist.php',
         'App\\Models\\WishlistItem' => __DIR__ . '/../..' . '/app/Models/WishlistItem.php',
+        'App\\testDataBase\\getData' => __DIR__ . '/../..' . '/app/testDataBase/getData.php',
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'Core\\Routing\\Main' => __DIR__ . '/../..' . '/core/routing/Main.php',
         'core\\database\\traits\\HasCrud' => __DIR__ . '/../..' . '/core/database/traits/HasCrud.php',

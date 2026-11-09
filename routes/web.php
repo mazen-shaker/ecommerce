@@ -8,10 +8,13 @@ use App\Http\Requests\AdminProfileUpdateRequest as AdminProfileRequest;
 //User routs
 
 Main::get('/', ['Storefront\HomeController', 'index']);
+Main::get('/product/create', ['Storefront\ProductController', 'create']);
+Main::get('/product/product-details', ['Storefront\ProductController', 'ProductDetails']);
 
 Main::get('/signin', ['Admin\UserController', 'createLogin']);
 Main::get('/signup', ['Admin\UserController', 'createRegister']);
-Main::get('/product-details', ['Customer\CartController', 'index']);
+Main::get('/cart', ['Customer\CartController', 'index']);
+Main::get('/checkout', ['Customer\CheckoutController', 'index']);
 
 
 Main::post('/login', ['Admin\UserController', 'login']);

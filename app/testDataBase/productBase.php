@@ -1,6 +1,5 @@
 <?php
 
-
 $products = [
     [
         "id" => 1,
