@@ -5,6 +5,7 @@
     "autoload": {
     "classmap": [
     "app/Models",
+    "app/testDataBase",
     "app/Http/Controllers",
     "app/Http/Controllers/Admin",
     "app/Http/Controllers/Customer",

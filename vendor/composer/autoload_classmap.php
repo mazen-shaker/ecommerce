@@ -53,6 +53,7 @@ return array(
     'App\\Models\\User' => $baseDir . '/app/Models/User.php',
     'App\\Models\\Wishlist' => $baseDir . '/app/Models/Wishlist.php',
     'App\\Models\\WishlistItem' => $baseDir . '/app/Models/WishlistItem.php',
+    'App\\testDataBase\\getData' => $baseDir . '/app/testDataBase/getData.php',
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
     'Core\\Routing\\Main' => $baseDir . '/core/routing/Main.php',
     'core\\database\\traits\\HasCrud' => $baseDir . '/core/database/traits/HasCrud.php',
