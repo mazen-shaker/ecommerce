@@ -62,6 +62,7 @@
                                                 <small style="display: block; color: #dc3545; font-size: 13px; margin-top: 6px;">
                                                     <?= htmlspecialchars($_SESSION['valedation']['name']) ?>
                                                 </small>
+                                                <?php unset($_SESSION['valedation']['name']); ?>
                                             <?php endif; ?>
                                         </div>
                                     </div>
@@ -82,6 +83,7 @@
                                                 <small style="display: block; color: #dc3545; font-size: 13px; margin-top: 6px;">
                                                     <?= htmlspecialchars($_SESSION['valedation']['phone']) ?>
                                                 </small>
+                                                <?php unset($_SESSION['valedation']['phone']); ?>
                                             <?php endif; ?>
                                         </div>
                                     </div>
@@ -102,6 +104,7 @@
                                                 <small style="display: block; color: #dc3545; font-size: 13px; margin-top: 6px;">
                                                     <?= htmlspecialchars($_SESSION['valedation']['email']) ?>
                                                 </small>
+                                                <?php unset($_SESSION['valedation']['email']); ?>
                                             <?php endif; ?>
                                         </div>
                                     </div>
@@ -110,6 +113,7 @@
                                         <small style="display: block; color: #dc3545; font-size: 13px; margin-top: 8px; margin-bottom: 12px; padding: 9px 12px; background: #fff1f1; border-left: 3px solid #dc3545; border-radius: 3px;">
                                             <?= htmlspecialchars($_SESSION['error']['profileUpdate']) ?>
                                         </small>
+                                        <?php unset($_SESSION['error']['profileUpdate']); ?>
                                     <?php endif; ?>
 
                                     <div class="text-center">
@@ -138,6 +142,7 @@
                                                 <small style="display: block; color: #dc3545; font-size: 13px; margin-top: 6px;">
                                                     <?= htmlspecialchars($_SESSION['valedation']['oldpassword']) ?>
                                                 </small>
+                                                <?php unset($_SESSION['valedation']['oldpassword']); ?>
                                             <?php endif; ?>
                                         </div>
                                     </div>
@@ -157,12 +162,14 @@
                                                 <small style="display: block; color: #dc3545; font-size: 13px; margin-top: 6px;">
                                                     <?= htmlspecialchars($_SESSION['valedation']['password']) ?>
                                                 </small>
+                                                <?php unset($_SESSION['valedation']['password']); ?>
                                             <?php endif; ?>
 
                                             <?php if (isset($_SESSION['error']['prfilePassword'])): ?>
                                                 <small style="display: block; color: #dc3545; font-size: 13px; margin-top: 8px; padding: 9px 12px; background: #fff1f1; border-left: 3px solid #dc3545; border-radius: 3px;">
                                                     <?= htmlspecialchars($_SESSION['error']['prfilePassword']) ?>
                                                 </small>
+                                                <?php unset($_SESSION['error']['prfilePassword']); ?>
                                             <?php endif; ?>
                                         </div>
                                     </div>
@@ -191,3 +198,4 @@
 
 <?php include __DIR__ . '/../layouts/footer.php'; ?>
 <?php include __DIR__ . '/../layouts/footer-scripts.php'; ?>
+

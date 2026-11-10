@@ -32,6 +32,7 @@ include __DIR__ . '/../layouts/header.php';
                                             <small style="display: block; color: #dc3545; font-size: 13px; margin-top: 6px;">
                                                 <?= htmlspecialchars($_SESSION['valedation']['email']) ?>
                                             </small>
+                                            <?php unset($_SESSION['valedation']['email']); ?>
                                         <?php endif; ?>
                                     </div>
 
@@ -43,12 +44,14 @@ include __DIR__ . '/../layouts/header.php';
                                             <small style="display: block; color: #dc3545; font-size: 13px; margin-top: 6px;">
                                                 <?= htmlspecialchars($_SESSION['valedation']['password']) ?>
                                             </small>
+                                            <?php unset($_SESSION['valedation']['password']); ?>
                                         <?php endif; ?>
 
                                         <?php if (isset($_SESSION['error']['lgoinError'])): ?>
                                             <small style="display: block; color: #dc3545; font-size: 13px; margin-top: 8px; padding: 9px 12px; background: #fff1f1; border-left: 3px solid #dc3545; border-radius: 3px;">
                                                 <?= htmlspecialchars($_SESSION['error']['lgoinError']) ?>
                                             </small>
+                                            <?php unset($_SESSION['error']['lgoinError']); ?>
                                         <?php endif; ?>
                                     </div>
 
@@ -71,3 +74,4 @@ include __DIR__ . '/../layouts/header.php';
 include __DIR__ . '/../layouts/footer.php';
 include __DIR__ . '/../layouts/footer-scripts.php';
 ?>
+

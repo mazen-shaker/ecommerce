@@ -48,7 +48,6 @@ foreach ($routes as $route) {
     }
 
 
-
         if ($route['valedation']) {
 
             $valedationClass = $route['valedation'];
