@@ -8,56 +8,139 @@ $breadcrumbs = [
 
 $product = $product ?? [];
 
+$productData = $product[0] ?? [];
+
 $images = $product['image'] ?? [];
 
-$mainImage = $images[0]['file_path'] ?? null;
+$imageBasePath = $GLOBALS['basePath'] . '/storage/upload/';
 
-$imageBasePath = $GLOBALS['basePath'].'/storage/upload/';
+$mainImage = $product['thub']['file_path'] ?? null;
+
+$productName = htmlspecialchars($productData['name'] ?? 'Product');
+$productDescription = htmlspecialchars($productData['description'] ?? 'لا يوجد وصف.');
+
+$price = (float)($productData['price'] ?? 0);
+$oldPrice = (float)($productData['old_price'] ?? 0);
+
+$stock = (int)($productData['stock'] ?? 0);
+$isAvailable = !empty($productData['is_active']) && $stock > 0;
+
+$mainImagePath = $mainImage
+    ? $imageBasePath . htmlspecialchars($mainImage)
+    : null;
 
 include __DIR__ . '/layouts/head.php';
 
 ?>
 
+<style>
+    .product_d_right .product_desc ul li {
+        position: relative;
+        padding-left: 24px;
+        color: inherit;
+    }
+
+    .product_d_right .product_desc ul li::before {
+        content: none !important;
+        display: none !important;
+    }
+
+    .product_d_right .product_desc ul li .stock-icon {
+        position: absolute;
+        left: 0;
+        top: 5px;
+        width: 15px;
+        height: 15px;
+    }
+
+    .product_d_right .product_desc ul li .stock-icon.available,
+    .product_d_right .product_desc ul li .stock-icon.quantity {
+        color: #39b93c;
+    }
+
+    .product_d_right .product_desc ul li .stock-icon.unavailable {
+        color: #e53935;
+    }
+
+    .product_d_right .priduct_social svg {
+        fill: #ffffff !important;
+    }
+</style>
+
 <?php include __DIR__ . '/layouts/header.php'; ?>
+
+<!-- breadcrumbs area start -->
+<div class="breadcrumbs_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumb_content">
+                    <ul>
+                        <li>
+                            <a href="<?= $GLOBALS['basePath'] ?>/">home</a>
+                        </li>
+                        <li>Product details</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- breadcrumbs area end -->
+
 
 <!-- product details start -->
 <div class="product_details mt-60 mb-60">
     <div class="container">
         <div class="row">
 
+            <!-- Product Images -->
             <div class="col-lg-6 col-md-6">
                 <div class="product-details-tab">
 
                     <div id="img-1" class="zoomWrapper single-zoom">
                         <a href="#">
-                            <?php if ($mainImage): ?>
+                            <?php if ($mainImagePath): ?>
                                 <img
                                     id="zoom1"
-                                    src="<?= $imageBasePath . htmlspecialchars($mainImage) ?>"
-                                    data-zoom-image="<?= $imageBasePath . htmlspecialchars($mainImage) ?>"
-                                    alt="<?= htmlspecialchars($product['name'] ?? 'Product') ?>"
+                                    src="<?= $mainImagePath ?>"
+                                    data-zoom-image="<?= $mainImagePath ?>"
+                                    alt="<?= $productName ?>"
+                                >
+                            <?php else: ?>
+                                <img
+                                    id="zoom1"
+                                    src="<?= $GLOBALS['basePath'] ?>/assets/img/product/no-image.jpg"
+                                    alt="<?= $productName ?>"
                                 >
                             <?php endif; ?>
                         </a>
                     </div>
 
                     <div class="single-zoom-thumb">
-                        <ul class="s-tab-zoom owl-carousel single-product-active" id="gallery_01">
+                        <ul
+                            class="s-tab-zoom owl-carousel single-product-active"
+                            id="gallery_01"
+                        >
 
                             <?php foreach ($images as $index => $image): ?>
+
+                                <?php
+                                    $imagePath = $imageBasePath . htmlspecialchars($image['file_path']);
+                                ?>
 
                                 <li>
                                     <a
                                         href="#"
                                         class="elevatezoom-gallery <?= $index === 0 ? 'active' : '' ?>"
                                         data-update=""
-                                        data-image="<?= $imageBasePath .$image['file_path'] ?>"
-                                        data-zoom-image="<?= $imageBasePath.$image['file_path'] ?>"
+                                        data-image="<?= $imagePath ?>"
+                                        data-zoom-image="<?= $imagePath ?>"
                                     >
                                         <img
-                                            src="<?= $imageBasePath . htmlspecialchars($image['file_path']) ?>"
-                                            alt="<?= $product['name'] ?? 'Product' ?>"
-                                        />
+                                            src="<?= $imagePath ?>"
+                                            alt="<?= $productName ?>"
+                                        >
                                     </a>
                                 </li>
 
@@ -69,20 +152,23 @@ include __DIR__ . '/layouts/head.php';
                 </div>
             </div>
 
+
+            <!-- Product Information -->
             <div class="col-lg-6 col-md-6">
                 <div class="product_d_right">
 
-                    <form action="#">
+                    <form action="#" method="POST">
 
-                        <h1><?= htmlspecialchars($product['name'] ?? '') ?></h1>
+                        <h1><?= $productName ?></h1>
 
+                        <!-- Rating -->
                         <div class="product_ratting">
                             <ul>
                                 <?php for ($i = 0; $i < 5; $i++): ?>
                                     <li>
                                         <a href="#">
-                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="#fff" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="#F9A825">
+                                                <path d="M12 2.25c.35 0 .67.2.82.52l2.76 5.6 6.18.9c.35.05.64.3.75.64.1.34.01.7-.24.95l-4.47 4.36 1.05 6.16a.9.9 0 0 1-1.3.95L12 19.42l-5.53 2.91a.9.9 0 0 1-1.3-.95l1.05-6.16-4.47-4.36a.9.9 0 0 1 .5-1.59l6.18-.9 2.76-5.6a.9.9 0 0 1 .81-.52Z"/>
                                             </svg>
                                         </a>
                                     </li>
@@ -90,109 +176,374 @@ include __DIR__ . '/layouts/head.php';
                             </ul>
                         </div>
 
+
+                        <!-- Price -->
                         <div class="price_box">
 
                             <span class="current_price">
-                                $<?= number_format((float)($product['price'] ?? 0), 2) ?>
+                                $<?= number_format($price, 2) ?>
                             </span>
 
-                            <?php if (!empty($product['old_price'])): ?>
+                            <?php if ($oldPrice > $price): ?>
                                 <span class="old_price">
-                                    $<?= number_format((float)$product['old_price'], 2) ?>
+                                    $<?= number_format($oldPrice, 2) ?>
                                 </span>
                             <?php endif; ?>
 
                         </div>
 
+
+                        <!-- Description -->
                         <div class="product_desc">
 
                             <ul>
                                 <li>
-                                    <?= !empty($product['is_active']) ? 'Available' : 'Unavailable' ?>
+                                    <?php if ($isAvailable): ?>
+                                        <svg class="stock-icon available" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm4.7 7.7-5.5 5.5a1 1 0 0 1-1.4 0l-2.5-2.5a1 1 0 1 1 1.4-1.4l1.8 1.8 4.8-4.8a1 1 0 0 1 1.4 1.4Z"/>
+                                        </svg>
+                                    <?php else: ?>
+                                        <svg class="stock-icon unavailable" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm3.7 12.3a1 1 0 0 1-1.4 1.4L12 13.4l-2.3 2.3a1 1 0 0 1-1.4-1.4l2.3-2.3-2.3-2.3a1 1 0 0 1 1.4-1.4l2.3 2.3 2.3-2.3a1 1 0 0 1 1.4 1.4L13.4 12l2.3 2.3Z"/>
+                                        </svg>
+                                    <?php endif; ?>
+
+                                    <?= $isAvailable ? 'In Stock' : 'Out Of Stock' ?>
                                 </li>
 
                                 <li>
-                                    <?= (int)($product['stock'] ?? 0) ?> Items In Stock
+                                    <svg class="stock-icon quantity" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M20 4h-3.2a4.98 4.98 0 0 0-9.6 0H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2ZM12 3a3 3 0 0 1 2.83 2H9.17A3 3 0 0 1 12 3Zm8 16H4V6h16v13Zm-9-2h2v-2h-2v2Zm0-4h2V9h-2v4Z"/>
+                                    </svg>
+
+                                    <?= $stock ?> Items In Stock
                                 </li>
                             </ul>
 
-                            <p>
-                                <?= htmlspecialchars($product['description'] ?? 'لا يوجد وصف.') ?>
-                            </p>
+                            <p><?= $productDescription ?></p>
 
                         </div>
 
+
+                        <!-- Countdown -->
+                        <?php if (!empty($productData['sale_ends_at'])): ?>
+                            <div class="product_timing">
+                                <div data-countdown="<?= htmlspecialchars($productData['sale_ends_at']) ?>"></div>
+                            </div>
+                        <?php endif; ?>
+
+
+                        <!-- Product Options -->
+                        <div class="product_variant color">
+                            <h3>Available Options</h3>
+                        </div>
+
+
+                        <!-- Quantity -->
                         <div class="product_variant quantity">
+
                             <label>Quantity</label>
 
                             <input
-                                min="1"
-                                max="<?= (int)($product['stock'] ?? 1) ?>"
-                                value="1"
                                 type="number"
-                                <?= empty($product['is_active']) || empty($product['stock']) ? 'disabled' : '' ?>
+                                min="1"
+                                max="<?= $stock ?>"
+                                value="1"
+                                name="quantity"
+                                <?= !$isAvailable ? 'disabled' : '' ?>
                             >
+
+                            <button
+                                class="button"
+                                type="submit"
+                                <?= !$isAvailable ? 'disabled' : '' ?>
+                            >
+                                Add to Cart
+                            </button>
+
                         </div>
 
-                        <div class="product_timing">
-                            <div data-countdown="2023/12/15"></div>
-                        </div>
 
+                        <!-- Wishlist & Compare -->
                         <div class="product_d_action">
                             <ul>
-
                                 <li>
                                     <a href="#" title="Add to wishlist">
-                                        <svg width="17" height="17" viewBox="0 0 24 24" fill="#fff" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M12 21.35L10.55 20.03C5.4 15.36 2 12.28 2 8.5C2 5.42 4.42 3 7.5 3C9.24 3 10.91 3.81 12 5.09C13.09 3.81 14.76 3 16.5 3C19.58 3 22 5.42 22 8.5C22 12.28 18.6 15.36 13.45 20.04L12 21.35Z"/>
-                                        </svg>
-                                        Add to Wishlist
+                                        + Add to Wishlist
                                     </a>
                                 </li>
 
                                 <li>
-                                    <a href="#" title="Compare">
-                                        <svg width="17" height="17" viewBox="0 0 24 24" fill="#fff" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M7 3H17V5H7V3ZM4 7H20V9H4V7ZM7 11H17V13H7V11ZM4 15H20V17H4V15ZM7 19H17V21H7V19Z"/>
-                                        </svg>
-                                        Compare
-                                    </a>
-                                </li>
 
+                                </li>
                             </ul>
                         </div>
 
+
+                        <!-- Product Meta -->
                         <div class="product_meta">
                             <span>
                                 Product ID:
-                                <a href="#">#<?= (int)($product['id'] ?? 0) ?></a>
+                                <a href="#">
+                                    #<?= (int)($productData['id'] ?? 0) ?>
+                                </a>
                             </span>
                         </div>
 
                     </form>
+                </div>
+            </div>
 
-                    <div class="priduct_social">
-                        <ul>
+        </div>
+    </div>
+</div>
+<!-- product details end -->
+
+
+<!-- product info start -->
+<div class="product_d_info mb-60">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+
+                <div class="product_d_inner">
+
+                    <!-- Tabs Navigation -->
+                    <div class="product_info_button">
+                        <ul class="nav" role="tablist">
 
                             <li>
-                                <a class="facebook" href="#" title="facebook">
-                                    <svg width="17" height="17" viewBox="0 0 24 24" fill="#fff" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M13.5 21V12.8H16.3L16.7 9.6H13.5V7.6C13.5 6.7 13.8 6.1 15.1 6.1H16.8V3.2C16.5 3.2 15.5 3.1 14.3 3.1C11.7 3.1 9.9 4.7 9.9 7.5V9.6H7V12.8H9.9V21H13.5Z"/>
-                                    </svg>
-                                    Like
+                                <a
+                                    class="active"
+                                    data-toggle="tab"
+                                    href="#info"
+                                    role="tab"
+                                    aria-controls="info"
+                                    aria-selected="true"
+                                >
+                                    Description
                                 </a>
                             </li>
 
                             <li>
-                                <a class="twitter" href="#" title="twitter">
-                                    <svg width="17" height="17" viewBox="0 0 24 24" fill="#fff" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M22 5.92C21.26 6.25 20.46 6.47 19.63 6.57C20.48 6.06 21.13 5.25 21.44 4.29C20.65 4.76 19.77 5.1 18.83 5.29C18.09 4.5 17.03 4 15.85 4C13.58 4 11.74 5.84 11.74 8.11C11.74 8.43 11.77 8.74 11.84 9.04C8.42 8.87 5.38 7.23 3.35 4.73C3 5.34 2.8 6.04 2.8 6.79C2.8 8.21 3.52 9.47 4.61 10.2C3.94 10.18 3.31 10 2.76 9.69V9.74C2.76 11.73 4.17 13.39 6.05 13.76C5.71 13.85 5.35 13.9 4.97 13.9C4.71 13.9 4.45 13.88 4.2 13.83C4.72 15.46 6.23 16.65 8.02 16.68C6.62 17.77 4.86 18.42 2.95 18.42C2.62 18.42 2.3 18.4 1.98 18.36C3.79 19.52 5.94 20.2 8.25 20.2C15.84 20.2 19.99 13.92 19.99 8.48L19.98 7.91C20.78 7.33 21.47 6.65 22 5.92Z"/>
-                                    </svg>
-                                    Tweet
+                                <a
+                                    data-toggle="tab"
+                                    href="#sheet"
+                                    role="tab"
+                                    aria-controls="sheet"
+                                    aria-selected="false"
+                                >
+                                    Specification
                                 </a>
                             </li>
 
                             <li>
-                                <a class="pinterest" href="#" title="pinterest">
-                                    <svg width="17" height="17" viewBox="0 0 24 24" fill="#fff" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M12 2C6.48 2 2 6.48 2 12C2 16.24 4.64 19.86 8.38 21.25C8.33 20.52 8.28 19.4 8.4 18.59L9.67 13.19C9.67 13.19 9.34 12.53 9.34 11.56C9.34 10.04 10.22 8.9 11.31 8.9C12.24 8.9 12.69 9.6 12.69 10.45C12.69 11.4 12.08 12.83 11.77 14.15C11.51 15.27 12.33 16.18 13.43 16.18C15.42 16.18 16.94 14.08 16.94 11.05C16.94 8.37 15.01 6.5 12.26 6.5
+                                <a
+                                    data-toggle="tab"
+                                    href="#reviews"
+                                    role="tab"
+                                    aria-controls="reviews"
+                                    aria-selected="false"
+                                >
+                                    Reviews (0)
+                                </a>
+                            </li>
+
+                        </ul>
+                    </div>
+
+
+                    <!-- Tabs Content -->
+                    <div class="tab-content">
+
+                        <!-- Description -->
+                        <div
+                            class="tab-pane fade show active"
+                            id="info"
+                            role="tabpanel"
+                        >
+                            <div class="product_info_content">
+                                <p><?= nl2br($productDescription) ?></p>
+                            </div>
+                        </div>
+
+
+                        <!-- Specification -->
+                        <div
+                            class="tab-pane fade"
+                            id="sheet"
+                            role="tabpanel"
+                        >
+                            <div class="product_d_table">
+                                <table>
+                                    <tbody>
+
+                                        <tr>
+                                            <td class="first_child">
+                                                Product Name
+                                            </td>
+                                            <td><?= $productName ?></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td class="first_child">
+                                                Category
+                                            </td>
+                                            <td>
+                                                <?= htmlspecialchars($productData['category_id'] ?? 'N/A') ?>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td class="first_child">
+                                                Price
+                                            </td>
+                                            <td>
+                                                $<?= number_format($price, 2) ?>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td class="first_child">
+                                                Stock
+                                            </td>
+                                            <td><?= $stock ?></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td class="first_child">
+                                                Availability
+                                            </td>
+                                            <td>
+                                                <?= $isAvailable ? 'Available' : 'Unavailable' ?>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td class="first_child">
+                                                Created At
+                                            </td>
+                                            <td>
+                                                <?= htmlspecialchars($productData['created_at'] ?? '') ?>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td class="first_child">
+                                                Updated At
+                                            </td>
+                                            <td>
+                                                <?= htmlspecialchars($productData['updated_at'] ?? '') ?>
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+
+                        <!-- Reviews -->
+                        <div
+                            class="tab-pane fade"
+                            id="reviews"
+                            role="tabpanel"
+                        >
+                            <div class="reviews_wrapper">
+
+                                <h2>Reviews</h2>
+
+                                <p>No reviews yet.</p>
+
+                                <div class="comment_title">
+                                    <h2>Add a review</h2>
+
+                                    <p>
+                                        Your email address will not be published.
+                                        Required fields are marked.
+                                    </p>
+                                </div>
+
+                                <div class="product_ratting mb-10">
+                                    <h3>Your rating</h3>
+
+                                    <ul>
+                                        <?php for ($i = 1; $i <= 5; $i++): ?>
+                                            <li>
+                                                <a href="#" data-rating="<?= $i ?>">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="#F9A825">
+                                                        <path d="M12 2.25c.35 0 .67.2.82.52l2.76 5.6 6.18.9c.35.05.64.3.75.64.1.34.01.7-.24.95l-4.47 4.36 1.05 6.16a.9.9 0 0 1-1.3.95L12 19.42l-5.53 2.91a.9.9 0 0 1-1.3-.95l1.05-6.16-4.47-4.36a.9.9 0 0 1 .5-1.59l6.18-.9 2.76-5.6a.9.9 0 0 1 .81-.52Z"/>
+                                                    </svg>
+                                                </a>
+                                            </li>
+                                        <?php endfor; ?>
+                                    </ul>
+                                </div>
+
+                                <div class="product_review_form">
+                                    <form action="#" method="POST">
+
+                                        <div class="row">
+
+                                            <div class="col-12">
+                                                <label for="review_comment">
+                                                    Your review
+                                                </label>
+
+                                                <textarea
+                                                    name="comment"
+                                                    id="review_comment"
+                                                ></textarea>
+                                            </div>
+
+                                            <div class="col-lg-6 col-md-6">
+                                                <label for="author">
+                                                    Name
+                                                </label>
+
+                                                <input
+                                                    id="author"
+                                                    name="name"
+                                                    type="text"
+                                                >
+                                            </div>
+
+                                            <div class="col-lg-6 col-md-6">
+                                                <label for="email">
+                                                    Email
+                                                </label>
+
+                                                <input
+                                                    id="email"
+                                                    name="email"
+                                                    type="email"
+                                                >
+                                            </div>
+
+                                        </div>
+
+                                        <button type="submit">
+                                            Submit
+                                        </button>
+
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- product info end -->
+
+
+<?php
+include __DIR__ . '/layouts/footer.php';
+include __DIR__ . '/layouts/footer-scripts.php';
+?>

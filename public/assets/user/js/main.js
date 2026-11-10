@@ -12,11 +12,11 @@
 			});
 		});
     }
-    
+
     $(window).on('load', function () {
         dataBackgroundImage();
     });
-    
+
     /*---stickey menu---*/
     $(window).on('scroll',function() {    
            var scroll = $(window).scrollTop();
@@ -26,7 +26,7 @@
             $(".sticky-header").addClass("sticky");
            }
     });
-    
+
     /*---jQuery MeanMenu---*/
     $('.mobile-menu nav').meanmenu({
         meanScreenWidth: "991",
@@ -45,7 +45,7 @@
         items: 1,
         dots:true,
     });
-    
+
     /*---product column5 activation---*/
        $('.product_column5').on('changed.owl.carousel initialized.owl.carousel', function (event) {
         $(event.target).find('.owl-item').removeClass('last').eq(event.item.index + event.page.size - 1).addClass('last')}).owlCarousel({
@@ -57,7 +57,10 @@
         items: 5,
         margin:20,
         dots:false,
-        navText: ['<i class="ion-ios-arrow-left"></i>','<i class="ion-ios-arrow-right"></i>'],
+        navText: [
+            '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M15.7 4.3a1 1 0 0 1 0 1.4L9.4 12l6.3 6.3a1 1 0 1 1-1.4 1.4l-7-7a1 1 0 0 1 0-1.4l7-7a1 1 0 0 1 1.4 0Z"/></svg>',
+            '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M8.3 4.3a1 1 0 0 0 0 1.4l6.3 6.3-6.3 6.3a1 1 0 1 0 1.4 1.4l7-7a1 1 0 0 0 0-1.4l-7-7a1 1 0 0 0-1.4 0Z"/></svg>'
+        ],
         responsiveClass:true,
 		responsive:{
 				0:{
@@ -79,15 +82,15 @@
 
 		  }
     });
-    
+
     /*---product slick column5 activation---*/
     $('.product_slick_column5').slick({
         centerMode: true,
         centerPadding: '0',
         slidesToShow: 5,
         rows: 2,
-        prevArrow:'<button class="prev_arrow"><i class="ion-ios-arrow-left"></i></button>',
-        nextArrow:'<button class="next_arrow"><i class="ion-ios-arrow-right"></i></button>', 
+        prevArrow:'<button class="prev_arrow"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M15.7 4.3a1 1 0 0 1 0 1.4L9.4 12l6.3 6.3a1 1 0 1 1-1.4 1.4l-7-7a1 1 0 0 1 0-1.4l7-7a1 1 0 0 1 1.4 0Z"/></svg></button>',
+        nextArrow:'<button class="next_arrow"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M8.3 4.3a1 1 0 0 0 0 1.4l6.3 6.3-6.3 6.3a1 1 0 1 0 1.4 1.4l7-7a1 1 0 0 0 0-1.4l-7-7a1 1 0 0 0-1.4 0Z"/></svg></button>', 
         responsive:[
             {
               breakpoint: 576,
@@ -119,15 +122,15 @@
             },
         ]
     });
-    
+
     /*---product slick column4 activation---*/
     $('.product_slick_column4').slick({
         centerMode: true,
         centerPadding: '0',
         slidesToShow: 4,
         rows: 2,
-        prevArrow:'<button class="prev_arrow"><i class="ion-ios-arrow-left"></i></button>',
-        nextArrow:'<button class="next_arrow"><i class="ion-ios-arrow-right"></i></button>', 
+        prevArrow:'<button class="prev_arrow"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M15.7 4.3a1 1 0 0 1 0 1.4L9.4 12l6.3 6.3a1 1 0 1 1-1.4 1.4l-7-7a1 1 0 0 1 0-1.4l7-7a1 1 0 0 1 1.4 0Z"/></svg></button>',
+        nextArrow:'<button class="next_arrow"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M8.3 4.3a1 1 0 0 0 0 1.4l6.3 6.3-6.3 6.3a1 1 0 1 0 1.4 1.4l7-7a1 1 0 0 0 0-1.4l-7-7a1 1 0 0 0-1.4 0Z"/></svg></button>', 
         responsive:[
             {
               breakpoint: 576,
@@ -166,8 +169,8 @@
         centerPadding: '0',
         slidesToShow: 3,
         rows: 2,
-        prevArrow:'<button class="prev_arrow"><i class="ion-ios-arrow-left"></i></button>',
-        nextArrow:'<button class="next_arrow"><i class="ion-ios-arrow-right"></i></button>', 
+        prevArrow:'<button class="prev_arrow"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M15.7 4.3a1 1 0 0 1 0 1.4L9.4 12l6.3 6.3a1 1 0 1 1-1.4 1.4l-7-7a1 1 0 0 1 0-1.4l7-7a1 1 0 0 1 1.4 0Z"/></svg></button>',
+        nextArrow:'<button class="next_arrow"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M8.3 4.3a1 1 0 0 0 0 1.4l6.3 6.3-6.3 6.3a1 1 0 1 0 1.4 1.4l7-7a1 1 0 0 0 0-1.4l-7-7a1 1 0 0 0-1.4 0Z"/></svg></button>', 
         responsive:[
             {
                 breakpoint: 450,
@@ -206,7 +209,7 @@
             },
         ]
     });
-    
+
     /*---product column4 activation---*/
        $('.product_column4').on('changed.owl.carousel initialized.owl.carousel', function (event) {
         $(event.target).find('.owl-item').removeClass('last').eq(event.item.index + event.page.size - 1).addClass('last')}).owlCarousel({
@@ -218,7 +221,10 @@
         items: 5,
         margin:20,
         dots:false,
-        navText: ['<i class="ion-ios-arrow-left"></i>','<i class="ion-ios-arrow-right"></i>'],
+        navText: [
+            '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M15.7 4.3a1 1 0 0 1 0 1.4L9.4 12l6.3 6.3a1 1 0 1 1-1.4 1.4l-7-7a1 1 0 0 1 0-1.4l7-7a1 1 0 0 1 1.4 0Z"/></svg>',
+            '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M8.3 4.3a1 1 0 0 0 0 1.4l6.3 6.3-6.3 6.3a1 1 0 1 0 1.4 1.4l7-7a1 1 0 0 0 0-1.4l-7-7a1 1 0 0 0-1.4 0Z"/></svg>'
+        ],
         responsiveClass:true,
 		responsive:{
 				0:{
@@ -240,8 +246,8 @@
 
 		  }
     });
-    
-    
+
+
     /*---product deals column4 activation---*/
        $('.product_deals_column4').on('changed.owl.carousel initialized.owl.carousel', function (event) {
         $(event.target).find('.owl-item').removeClass('last').eq(event.item.index + event.page.size - 1).addClass('last')}).owlCarousel({
@@ -273,7 +279,7 @@
 
 		  }
     });
-    
+
     /*---product column1 activation---*/
        $('.product_column1').on('changed.owl.carousel initialized.owl.carousel', function (event) {
         $(event.target).find('.owl-item').removeClass('last').eq(event.item.index + event.page.size - 1).addClass('last')}).owlCarousel({
@@ -285,7 +291,10 @@
         items: 1,
         margin:20,
         dots:false,
-        navText: ['<i class="ion-ios-arrow-left"></i>','<i class="ion-ios-arrow-right"></i>'],
+        navText: [
+            '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M15.7 4.3a1 1 0 0 1 0 1.4L9.4 12l6.3 6.3a1 1 0 1 1-1.4 1.4l-7-7a1 1 0 0 1 0-1.4l7-7a1 1 0 0 1 1.4 0Z"/></svg>',
+            '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M8.3 4.3a1 1 0 0 0 0 1.4l6.3 6.3-6.3 6.3a1 1 0 1 0 1.4 1.4l7-7a1 1 0 0 0 0-1.4l-7-7a1 1 0 0 0-1.4 0Z"/></svg>'
+        ],
         responsiveClass:true,
 		responsive:{
 				0:{
@@ -303,7 +312,7 @@
 
 		  }
     });
-    
+
 
     /*---category column5 activation---*/
        $('.category_column5').on('changed.owl.carousel initialized.owl.carousel', function (event) {
@@ -335,16 +344,16 @@
 
 		  }
     });
-    
-    
+
+
     /*---featured column3 activation---*/
     $('.featured_column3').slick({
         centerMode: true,
         centerPadding: '0',
         slidesToShow: 3,
         rows: 2,
-        prevArrow:'<button class="prev_arrow"><i class="ion-ios-arrow-left"></i></button>',
-        nextArrow:'<button class="next_arrow"><i class="ion-ios-arrow-right"></i></button>', 
+        prevArrow:'<button class="prev_arrow"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M15.7 4.3a1 1 0 0 1 0 1.4L9.4 12l6.3 6.3a1 1 0 1 1-1.4 1.4l-7-7a1 1 0 0 1 0-1.4l7-7a1 1 0 0 1 1.4 0Z"/></svg></button>',
+        nextArrow:'<button class="next_arrow"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M8.3 4.3a1 1 0 0 0 0 1.4l6.3 6.3-6.3 6.3a1 1 0 1 0 1.4 1.4l7-7a1 1 0 0 0 0-1.4l-7-7a1 1 0 0 0-1.4 0Z"/></svg></button>', 
         responsive:[
             {
               breakpoint: 480,
@@ -369,15 +378,15 @@
             },
         ]
     });
-    
+
     /*---small product activation---*/
     $('.small_product_active').slick({
         centerMode: true,
         centerPadding: '0',
         slidesToShow: 1,
         rows: 3,
-        prevArrow:'<button class="prev_arrow"><i class="ion-ios-arrow-left"></i></button>',
-        nextArrow:'<button class="next_arrow"><i class="ion-ios-arrow-right"></i></button>', 
+        prevArrow:'<button class="prev_arrow"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M15.7 4.3a1 1 0 0 1 0 1.4L9.4 12l6.3 6.3a1 1 0 1 1-1.4 1.4l-7-7a1 1 0 0 1 0-1.4l7-7a1 1 0 0 1 1.4 0Z"/></svg></button>',
+        nextArrow:'<button class="next_arrow"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M8.3 4.3a1 1 0 0 0 0 1.4l6.3 6.3-6.3 6.3a1 1 0 1 0 1.4 1.4l7-7a1 1 0 0 0 0-1.4l-7-7a1 1 0 0 0-1.4 0Z"/></svg></button>', 
         responsive:[
             {
               breakpoint: 480,
@@ -402,8 +411,8 @@
             },
         ]
     });
- 
-    
+
+
     /*---testimonial active activation---*/
     $('.testimonial_active').owlCarousel({
         autoplay: true,
@@ -414,8 +423,8 @@
         items: 1,
         dots:true,
     })
-    
-    
+
+
      /*---blog column4 activation---*/
     $('.blog_column4').owlCarousel({
         autoplay: true,
@@ -425,7 +434,10 @@
         autoplayTimeout: 8000,
         items: 4,
         dots:false,
-        navText: ['<i class="ion-ios-arrow-left"></i>','<i class="ion-ios-arrow-right"></i>'],
+        navText: [
+            '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M15.7 4.3a1 1 0 0 1 0 1.4L9.4 12l6.3 6.3a1 1 0 1 1-1.4 1.4l-7-7a1 1 0 0 1 0-1.4l7-7a1 1 0 0 1 1.4 0Z"/></svg>',
+            '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M8.3 4.3a1 1 0 0 0 0 1.4l6.3 6.3-6.3 6.3a1 1 0 1 0 1.4 1.4l7-7a1 1 0 0 0 0-1.4l-7-7a1 1 0 0 0-1.4 0Z"/></svg>'
+        ],
         responsiveClass:true,
 		responsive:{
 				0:{
@@ -442,7 +454,7 @@
 			}, 
 		  }
     });
-    
+
     /*---blog column1 activation---*/
     $('.blog_column1').owlCarousel({
         autoplay: true,
@@ -452,7 +464,10 @@
         autoplayTimeout: 8000,
         items: 1,
         dots:false,
-        navText: ['<i class="ion-ios-arrow-left"></i>','<i class="ion-ios-arrow-right"></i>'],
+        navText: [
+            '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M15.7 4.3a1 1 0 0 1 0 1.4L9.4 12l6.3 6.3a1 1 0 1 1-1.4 1.4l-7-7a1 1 0 0 1 0-1.4l7-7a1 1 0 0 1 1.4 0Z"/></svg>',
+            '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M8.3 4.3a1 1 0 0 0 0 1.4l6.3 6.3-6.3 6.3a1 1 0 1 0 1.4 1.4l7-7a1 1 0 0 0 0-1.4l-7-7a1 1 0 0 0-1.4 0Z"/></svg>'
+        ],
         responsiveClass:true,
 		responsive:{
 				0:{
@@ -467,7 +482,7 @@
 			},  
 		  }
     });
-    
+
     /*---blog thumb activation---*/
     $('.blog_thumb_active').owlCarousel({
         autoplay: true,
@@ -476,9 +491,12 @@
         autoplay: false,
         autoplayTimeout: 8000,
         items: 1,
-        navText: ['<i class="ion-ios-arrow-left"></i>','<i class="ion-ios-arrow-right"></i>'],
+        navText: [
+            '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M15.7 4.3a1 1 0 0 1 0 1.4L9.4 12l6.3 6.3a1 1 0 1 1-1.4 1.4l-7-7a1 1 0 0 1 0-1.4l7-7a1 1 0 0 1 1.4 0Z"/></svg>',
+            '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M8.3 4.3a1 1 0 0 0 0 1.4l6.3 6.3-6.3 6.3a1 1 0 1 0 1.4 1.4l7-7a1 1 0 0 0 0-1.4l-7-7a1 1 0 0 0-1.4 0Z"/></svg>'
+        ],
     });
-    
+
     /*---brand container activation---*/
      $('.brand_container').on('changed.owl.carousel initialized.owl.carousel', function (event) {
         $(event.target).find('.owl-item').removeClass('last').eq(event.item.index + event.page.size - 1).addClass('last')}).owlCarousel({
@@ -489,7 +507,10 @@
         autoplayTimeout: 8000,
         items: 5,
         dots:false,
-        navText: ['<i class="ion-ios-arrow-left"></i>','<i class="ion-ios-arrow-right"></i>'],
+        navText: [
+            '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M15.7 4.3a1 1 0 0 1 0 1.4L9.4 12l6.3 6.3a1 1 0 1 1-1.4 1.4l-7-7a1 1 0 0 1 0-1.4l7-7a1 1 0 0 1 1.4 0Z"/></svg>',
+            '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M8.3 4.3a1 1 0 0 0 0 1.4l6.3 6.3-6.3 6.3a1 1 0 1 0 1.4 1.4l7-7a1 1 0 0 0 0-1.4l-7-7a1 1 0 0 0-1.4 0Z"/></svg>'
+        ],
         responsiveClass:true,
 		responsive:{
 				0:{
@@ -510,8 +531,8 @@
 
 		  }
     });
-    
-    
+
+
     /*---single product activation---*/
     $('.single-product-active').owlCarousel({
         autoplay: true,
@@ -522,7 +543,10 @@
         items: 4,
         margin:15,
         dots:false,
-        navText: ['<i class="fa fa-angle-left"></i>','<i class="fa fa-angle-right"></i>'],
+        navText: [
+            '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M15.7 4.3a1 1 0 0 1 0 1.4L9.4 12l6.3 6.3a1 1 0 1 1-1.4 1.4l-7-7a1 1 0 0 1 0-1.4l7-7a1 1 0 0 1 1.4 0Z"/></svg>',
+            '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M8.3 4.3a1 1 0 0 0 0 1.4l6.3 6.3-6.3 6.3a1 1 0 1 0 1.4 1.4l7-7a1 1 0 0 0 0-1.4l-7-7a1 1 0 0 0-1.4 0Z"/></svg>'
+        ],
         responsiveClass:true,
 		responsive:{
 				0:{
@@ -541,8 +565,8 @@
 
 		  }
     });
- 
-   
+
+
     /*---product navactive activation---*/
     $('.product_navactive').owlCarousel({
         autoplay: true,
@@ -552,7 +576,10 @@
         autoplayTimeout: 8000,
         items: 4,
         dots:false,
-        navText: ['<i class="fa fa-angle-left"></i>','<i class="fa fa-angle-right"></i>'],
+        navText: [
+            '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M15.7 4.3a1 1 0 0 1 0 1.4L9.4 12l6.3 6.3a1 1 0 1 1-1.4 1.4l-7-7a1 1 0 0 1 0-1.4l7-7a1 1 0 0 1 1.4 0Z"/></svg>',
+            '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M8.3 4.3a1 1 0 0 0 0 1.4l6.3 6.3-6.3 6.3a1 1 0 1 0 1.4 1.4l7-7a1 1 0 0 0 0-1.4l-7-7a1 1 0 0 0-1.4 0Z"/></svg>'
+        ],
         responsiveClass:true,
 		responsive:{
 				0:{
@@ -567,7 +594,7 @@
             768:{
 				items:4,
 			},
-		  
+
         }
     });
 
@@ -587,14 +614,14 @@
       $('.product-details-large '+ $href ).addClass('active show');
 
     })
-       
+
     /*--- video Popup---*/
     $('.video_popup').magnificPopup({
         type: 'iframe',
         removalDelay: 300,
         mainClass: 'mfp-fade'
     });
-    
+
     /*--- Magnific Popup Video---*/
     $('.port_popup').magnificPopup({
         type: 'image',
@@ -602,17 +629,17 @@
             enabled: true
         }
     });
-    
+
     /*--- Tooltip Active---*/
     $('.action_links ul li a,.add_to_cart a,.footer_social_link ul li a').tooltip({
             animated: 'fade',
             placement: 'top',
             container: 'body'
     });
-    
+
     /*--- niceSelect---*/
      $('.select_option').niceSelect();
-    
+
     /*---  Accordion---*/
     $(".faequently-accordion").collapse({
         accordion:true,
@@ -629,18 +656,18 @@
         delay: 10,
         time: 1000
     });
-  
-    
+
+
     /*---countdown activation---*/
-		
+
 	 $('[data-countdown]').each(function() {
 		var $this = $(this), finalDate = $(this).data('countdown');
 		$this.countdown(finalDate, function(event) {
 		$this.html(event.strftime('<div class="countdown_area"><div class="single_countdown"><div class="countdown_number">%D</div><div class="countdown_title">days</div></div><div class="single_countdown"><div class="countdown_number">%H</div><div class="countdown_title">hours</div></div><div class="single_countdown"><div class="countdown_number">%M</div><div class="countdown_title">mins</div></div><div class="single_countdown"><div class="countdown_number">%S</div><div class="countdown_title">secs</div></div></div>'));     
-               
+
        });
 	});	
-    
+
     /*---slider-range here---*/
     $( "#slider-range" ).slider({
         range: true,
@@ -653,19 +680,19 @@
     });
     $( "#amount" ).val( "$" + $( "#slider-range" ).slider( "values", 0 ) +
        " - $" + $( "#slider-range" ).slider( "values", 1 ) );
-    
+
     /*---niceSelect---*/
      $('.niceselect_option').niceSelect();
-    
+
     /*---elevateZoom---*/
     $("#zoom1").elevateZoom({
         gallery:'gallery_01', 
         responsive : true,
         cursor: 'crosshair',
         zoomType : 'inner'
-    
+
     });  
-    
+
     /*---portfolio Isotope activation---*/
       $('.portfolio_gallery').imagesLoaded( function() {
 
@@ -681,20 +708,20 @@
         $('.portfolio_button').on( 'click', 'button', function() {
            var filterValue = $(this).attr('data-filter');
            $grid.isotope({ filter: filterValue });
-            
+
            $(this).siblings('.active').removeClass('active');
            $(this).addClass('active');
         });
-       
+
     });
-    
+
     /*---slide toggle activation---*/
    $('.mini_cart_wrapper > a').on('click', function(event){
         if($(window).width() < 991){
             $('.mini_cart').slideToggle('medium');
         }
     });
-    
+
     /*---categories slideToggle---*/
     $(".categories_title").on("click", function() {
         $(this).toggleClass('active');
@@ -706,15 +733,15 @@
         $(this).toggleClass('active');
         $('.widget_dropdown_categories').slideToggle('medium');
     }); 
-    
+
     /*---addClass/removeClass categories---*/
    $("#cat_toggle.has-sub > a").on("click", function() {
             $(this).removeAttr('href');
             $(this).toggleClass('open').next('.categorie_sub').toggleClass('open');
             $(this).parents().siblings().find('#cat_toggle.has-sub > a').removeClass('open');
     });
-    
-    
+
+
     /*---MailChimp---*/
     $('#mc-form').ajaxChimp({
         language: 'en',
@@ -733,7 +760,7 @@
             $('.mailchimp-error').html('' + resp.msg).fadeIn(900);
         }  
     }
-    
+
     /*---Category menu---*/
     function categorySubMenuToggle(){
         $('.categories_menu_toggle li.menu_item_children > a').on('click', function(){
@@ -762,36 +789,36 @@
 
     /*---shop grid activation---*/
     $('.shop_toolbar_btn > button').on('click', function (e) {
-        
+
 		e.preventDefault();
-        
+
         $('.shop_toolbar_btn > button').removeClass('active');
 		$(this).addClass('active');
-        
+
 		var parentsDiv = $('.shop_wrapper');
 		var viewMode = $(this).data('role');
-        
-        
+
+
 		parentsDiv.removeClass('grid_3 grid_4 grid_5 grid_list').addClass(viewMode);
 
 		if(viewMode == 'grid_3'){
 			parentsDiv.children().addClass('col-lg-4 col-md-4 col-sm-6').removeClass('col-lg-3 col-cust-5 col-12');
-            
+
 		}
 
 		if(viewMode == 'grid_4'){
 			parentsDiv.children().addClass('col-lg-3 col-md-4 col-sm-6').removeClass('col-lg-4 col-cust-5 col-12');
 		}
-        
+
         if(viewMode == 'grid_list'){
 			parentsDiv.children().addClass('col-12').removeClass('col-lg-3 col-lg-4 col-md-4 col-sm-6 col-cust-5');
 		}
-            
+
 	});
-  
-    
+
+
    /*---Newsletter Popup activation---*/
-   
+
        setTimeout(function() {
             if($.cookie('shownewsletter')==1) $('.newletter-popup').hide();
             $('#subscribe_pemail').keypress(function(e) {
@@ -818,25 +845,25 @@
                 }
             }); 
         }, 2500);
-    
-    
+
+
     /*---canvas menu activation---*/
     $('.canvas_open').on('click', function(){
         $('.Offcanvas_menu_wrapper,.off_canvars_overlay').addClass('active')
     });
-    
+
     $('.canvas_close,.off_canvars_overlay').on('click', function(){
         $('.Offcanvas_menu_wrapper,.off_canvars_overlay').removeClass('active')
     });
-    
-    
+
+
     /*---Off Canvas Menu---*/
     var $offcanvasNav = $('.offcanvas_main_menu'),
         $offcanvasNavSubMenu = $offcanvasNav.find('.sub-menu');
     $offcanvasNavSubMenu.parent().prepend('<span class="menu-expand"><i class="fa fa-angle-down"></i></span>');
-    
+
     $offcanvasNavSubMenu.slideUp();
-    
+
     $offcanvasNav.on('click', 'li a, li .menu-expand', function(e) {
         var $this = $(this);
         if ( ($this.parent().attr('class').match(/\b(menu-item-has-children|has-children|has-sub-menu)\b/)) && ($this.attr('href') === '#' || $this.hasClass('menu-expand')) ) {
@@ -854,6 +881,6 @@
         	$this.toggleClass('menu-open');
         }
     });
-    
-    
-})(jQuery);	
+
+
+})(jQuery);

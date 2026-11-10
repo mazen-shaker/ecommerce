@@ -77,31 +77,41 @@
                             <ul>
                                 <li>
                                     <a class="facebook" href="#" title="Facebook">
-                                        <i class="fa fa-facebook"></i>
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="#fff">
+                                            <path d="M13.5 21v-8.2h2.8l.4-3.2h-3.2V7.5c0-.9.3-1.5 1.6-1.5h1.7V3.1c-.3 0-1.4-.1-2.6-.1-2.6 0-4.4 1.6-4.4 4.5v2.1H7v3.2h2.8V21h3.7Z"/>
+                                        </svg>
                                     </a>
                                 </li>
 
                                 <li>
                                     <a class="twitter" href="#" title="Twitter">
-                                        <i class="fa fa-twitter"></i>
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="#fff">
+                                            <path d="M18.9 3H22l-6.8 7.8L23.2 21h-6.3l-4.9-6.4L6.4 21H3.2l7.3-8.4L2.8 3h6.5l4.4 5.8L18.9 3Zm-1.1 16h1.7L8.3 4.9H6.5L17.8 19Z"/>
+                                        </svg>
                                     </a>
                                 </li>
 
                                 <li>
-                                    <a class="instagram" href="#" title="instagram">
-                                        <i class="fa fa-instagram"></i>
+                                    <a class="instagram" href="#" title="Instagram">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="#fff">
+                                            <path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7Zm5 3a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6Zm5.5-3a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z"/>
+                                        </svg>
                                     </a>
                                 </li>
 
                                 <li>
-                                    <a class="linkedin" href="#" title="linkedin">
-                                        <i class="fa fa-linkedin"></i>
+                                    <a class="linkedin" href="#" title="LinkedIn">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="#fff">
+                                            <path d="M5.2 3a2.2 2.2 0 1 1 0 4.4 2.2 2.2 0 0 1 0-4.4ZM3.3 9h3.8v12H3.3V9Zm6.1 0H13v1.6h.1A4 4 0 0 1 16.7 8c3.9 0 4.6 2.6 4.6 6V21h-3.8v-6.2c0-1.5 0-3.5-2.1-3.5s-2.4 1.7-2.4 3.4V21H9.4V9Z"/>
+                                        </svg>
                                     </a>
                                 </li>
 
                                 <li>
-                                    <a class="rss" href="#" title="rss">
-                                        <i class="fa fa-rss"></i>
+                                    <a class="rss" href="#" title="RSS">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="#fff">
+                                            <path d="M5 3a2 2 0 1 1 0 4 2 2 0 0 1 0-4Zm-2 8v3a7 7 0 0 1 7 7h3c0-5.5-4.5-10-10-10Zm0-6v3c7.2 0 13 5.8 13 13h3C19 12.2 11.8 5 3 5Z"/>
+                                        </svg>
                                     </a>
                                 </li>
                             </ul>

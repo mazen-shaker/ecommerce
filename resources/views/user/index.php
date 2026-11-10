@@ -10,7 +10,7 @@ include __DIR__ . '/layouts/header.php';
 ?>
 
 <!-- Slider Area Start -->
-<section class="slider_section d-flex align-items-center" data-bgimg="<?= $GLOBALS['basePath'] ?>/assets/img/slider/slider3.jpg">
+<section class="slider_section d-flex align-items-center" data-bgimg="<?=$GLOBALS['basePath']?>public/assets/user/img/slider/slider3.jpg">
     <div class="slider_area owl-carousel">
 
         <div class="single_slider d-flex align-items-center">
@@ -21,13 +21,13 @@ include __DIR__ . '/layouts/header.php';
                             <h1>Next level of Drone</h1>
                             <h2>Insane Quality for use</h2>
                             <p>Special offer <span>20% off</span> this week</p>
-                            <a class="button" href="<?= $GLOBALS['basePath'] ?>/product-details">Buy now</a>
+                            <a class="button" href="<?=$GLOBALS['basePath']?>/product-details">Buy now</a>
                         </div>
                     </div>
 
                     <div class="col-xl-6 col-md-6">
                         <div class="slider_content">
-                            <img src="<?= $GLOBALS['basePath'] ?>/assets/img/product/1.png" alt="">
+                            <img src="<?=$GLOBALS['basePath']?>/public/assets/user/img/product/1.png" alt="">
                         </div>
                     </div>
                 </div>
@@ -48,7 +48,7 @@ include __DIR__ . '/layouts/header.php';
 
                     <div class="col-xl-6 col-md-6">
                         <div class="slider_content">
-                            <img src="<?= $GLOBALS['basePath'] ?>/assets/img/product/2.png" alt="">
+                            <img src="<?= $GLOBALS['basePath'] ?>/public/assets/user/img/product/2.png" alt="">
                         </div>
                     </div>
                 </div>
@@ -69,7 +69,7 @@ include __DIR__ . '/layouts/header.php';
 
                     <div class="col-xl-6 col-md-6">
                         <div class="slider_content">
-                            <img src="<?= $GLOBALS['basePath'] ?>/assets/img/product/3.png" alt="">
+                            <img src="<?= $GLOBALS['basePath'] ?>/public/assets/user/img/product/3.png" alt="">
                         </div>
                     </div>
                 </div>
@@ -106,28 +106,20 @@ include __DIR__ . '/layouts/header.php';
                                     alt="<?= htmlspecialchars($product['name']) ?>">
                             </div>
 
-                            <div class="tranding-pro-title">
+                            <div class="tranding-pro-title" style="text-align:center;"">
                                 <h3>
                                     <?= htmlspecialchars($product['name']) ?>
                                 </h3>
 
-                                <h4>
-                                    <?= htmlspecialchars($product['description']) ?>
-                                </h4>
                             </div>
 
                             <div class="tranding-pro-price">
-                                <div class="price_box">
+                                <div class="price_box" style="display:flex; justify-content:center; align-items:center; align-content:center; justify-items:center;">
 
-                                    <span class="current_price">
+                                    <span class="current_price" style="font-size:20px; width:100%; text-align:center;">
+
                                         <?= number_format($product['price'], 2) ?> EGP
                                     </span>
-
-                                    <?php if ($product['old_price'] > $product['price']) : ?>
-                                        <span class="old_price">
-                                            <?= number_format($product['old_price'], 2) ?> EGP
-                                        </span>
-                                    <?php endif; ?>
 
                                 </div>
                             </div>

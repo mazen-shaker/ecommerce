@@ -10,7 +10,7 @@ class CategoryStoreRequest extends Main
     private function rules(): array
     {
      return [
-      'name' => ['required', 'string', 'min:3', 'max:50', 'alpha'],
+      'name' => ['required', 'string', 'min:3', 'max:50'],
       'description' => ['required', 'string', 'min:3', 'max:500'],
     ];
     }
