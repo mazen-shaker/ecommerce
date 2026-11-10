@@ -12,7 +12,7 @@ include __DIR__ . '/layouts/header.php';
 <!--shopping cart area start -->
 <div class="shopping_cart_area mt-60">
     <div class="container">
-        <form action="#">
+        <div>
             <div class="row">
                 <div class="col-12">
                     <div class="table_desc">
@@ -31,7 +31,7 @@ include __DIR__ . '/layouts/header.php';
                                 <tbody>
                                     <?php
 
-                                    foreach ($carts ?? [] as $cart):
+                                    foreach ($carts ?? [] as $cartIndex => $cart):
                                     ?>
                                         <tr>
                                             <td class="product_thumb"><a href="#"><img src="assets/img/s-product/product.jpg" alt=""></a></td>
@@ -39,7 +39,15 @@ include __DIR__ . '/layouts/header.php';
                                             <td class="product-price">$65.00</td>
                                             <td class="product_quantity"><label>Quantity</label> <input min="1" max="100" value="1" type="number"></td>
                                             <td class="product_total">$130.00</td>
-                                            <td class="product_remove"><a href="#"><i class="ion-android-close"></i></a></td>
+                                            <td class="product_remove">
+                                                <form action="<?= htmlspecialchars($GLOBALS['basePath'] . '/cart/destroy', ENT_QUOTES, 'UTF-8') ?>" method="POST">
+                                                    <input type="hidden" name="index" value="<?= (int) $cartIndex ?>">
+                                                    <button type="submit" class="btn btn-danger btn-sm px-3 py-1 rounded-2"
+                                                        style="font-size: 13px;">
+                                                        Remove
+                                                    </button>
+                                                </form>
+                                            </td>
                                         </tr>
                                     <?php endforeach;
                                     ?>
@@ -48,7 +56,9 @@ include __DIR__ . '/layouts/header.php';
                             </table>
                         </div>
                         <div class="cart_submit">
-                            <button type="submit">update cart</button>
+                            <form action="#" method="POST">
+                                <button type="submit">update cart</button>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -61,8 +71,10 @@ include __DIR__ . '/layouts/header.php';
                             <h3>Coupon</h3>
                             <div class="coupon_inner">
                                 <p>Enter your coupon code if you have one.</p>
-                                <input placeholder="Coupon code" type="text">
-                                <button type="submit">Apply coupon</button>
+                                <form action="#" method="POST">
+                                    <input placeholder="Coupon code" type="text">
+                                    <button type="submit">Apply coupon</button>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -93,7 +105,7 @@ include __DIR__ . '/layouts/header.php';
                 </div>
             </div>
             <!--coupon code area end-->
-        </form>
+        </div>
     </div>
 </div>
 <!--shopping cart area end -->

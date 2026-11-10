@@ -27,6 +27,8 @@ Main::get('/logout', ['Admin\UserController', 'logout']);
 
 
 Main::get('/cart', ['Customer\CartController', 'index']);
+Main::post('/cart/add', ['Customer\CartController', 'add']);
+Main::post('/cart/destroy', ['Customer\CartController', 'destroy']);
 Main::get('/checkout', ['Customer\CheckoutController', 'index']);
 
 
