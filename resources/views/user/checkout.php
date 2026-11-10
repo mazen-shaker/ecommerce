@@ -7,8 +7,6 @@ $breadcrumbs = [
 
 $carts = $carts ?? [];
 
-$imageBasePath = $GLOBALS['basePath'] . '/';
-
 $total = 0;
 
 foreach ($carts as $cart) {
@@ -59,28 +57,37 @@ include __DIR__ . '/layouts/header.php';
     }
 </style>
 
-<!--Checkout page section-->
+<!-- Checkout Section -->
 <div class="Checkout_section mt-60">
     <div class="container">
 
         <div class="row">
             <div class="col-12">
 
+                <!-- Login -->
                 <div class="user-actions">
                     <h3>
                         <i class="fa fa-file-o" aria-hidden="true"></i>
                         Returning customer?
-                        <a class="Returning" href="#" data-toggle="collapse"
-                            data-target="#checkout_login" aria-expanded="true"
-                            aria-controls="checkout_login">Click here to login</a>
+                        <a class="Returning"
+                           href="#"
+                           data-toggle="collapse"
+                           data-target="#checkout_login"
+                           aria-expanded="true"
+                           aria-controls="checkout_login">
+                            Click here to login
+                        </a>
                     </h3>
 
-                    <div id="checkout_login" class="collapse" data-parent="#accordionExample">
+                    <div id="checkout_login" class="collapse">
                         <div class="checkout_info">
-                            <p>If you have shopped with us before, please enter your details in the boxes below. If you are a new customer please proceed to the Billing & Shipping section.</p>
 
-                            
-                        <form action="<?= $GLOBALS['basePath'] ?>/orders/store" method="POST" enctype="multipart/form-data">
+                            <p>
+                                If you have shopped with us before,
+                                please enter your details below.
+                            </p>
+
+                            <form action="#" method="POST">
 
                                 <div class="form_group">
                                     <label>Username or email <span>*</span></label>
@@ -94,34 +101,51 @@ include __DIR__ . '/layouts/header.php';
 
                                 <div class="form_group group_3">
                                     <button type="submit">Login</button>
+
                                     <label for="remember_box">
                                         <input id="remember_box" type="checkbox">
-                                        <span> Remember me </span>
+                                        <span>Remember me</span>
                                     </label>
                                 </div>
 
                                 <a href="#">Lost your password?</a>
+
                             </form>
+
                         </div>
                     </div>
                 </div>
 
+                <!-- Coupon -->
                 <div class="user-actions">
                     <h3>
                         <i class="fa fa-file-o" aria-hidden="true"></i>
                         Get any promo code?
-                        <a class="Returning" href="#" data-toggle="collapse"
-                            data-target="#checkout_coupon" aria-expanded="true"
-                            aria-controls="checkout_coupon">Click here to enter your code</a>
+                        <a class="Returning"
+                           href="#"
+                           data-toggle="collapse"
+                           data-target="#checkout_coupon"
+                           aria-expanded="true"
+                           aria-controls="checkout_coupon">
+                            Click here to enter your code
+                        </a>
                     </h3>
 
-                    <div id="checkout_coupon" class="collapse" data-parent="#accordionExample">
+                    <div id="checkout_coupon" class="collapse">
                         <div class="checkout_info">
-                            
-                        <form action="<?= $GLOBALS['basePath'] ?>/orders/store" method="POST" enctype="multipart/form-data">
-                                <input placeholder="Coupon code" type="text">
-                                <button type="submit">Apply coupon</button>
+
+                            <form action="#" method="POST">
+                                <input
+                                    type="text"
+                                    name="coupon_code"
+                                    placeholder="Coupon code"
+                                >
+
+                                <button type="submit">
+                                    Apply coupon
+                                </button>
                             </form>
+
                         </div>
                     </div>
                 </div>
@@ -130,97 +154,87 @@ include __DIR__ . '/layouts/header.php';
         </div>
 
         <!-- Main Checkout Form -->
-        
-        <form action="<?= $GLOBALS['basePath'] ?>/orders/store" method="POST" enctype="multipart/form-data">
-
+        <form
+            action="<?= $GLOBALS['basePath'] ?>/orders/store"
+            method="POST"
+        >
             <div class="checkout_form">
                 <div class="row">
 
-                    <!-- Billing Details -->
+            <input type="hidden" name="user_id" value="<?=$_SESSION['user']['id']?>">
+                    <!-- Customer Details -->
                     <div class="col-lg-6 col-md-6">
 
                         <h3>Billing Details</h3>
 
                         <div class="row">
 
-                            <div class="col-lg-6 mb-20">
-                                <label>First Name <span>*</span></label>
-                                <input type="text" name="first_name" required>
-                            </div>
-
-                            <div class="col-lg-6 mb-20">
-                                <label>Last Name <span>*</span></label>
-                                <input type="text" name="last_name" required>
-                            </div>
-
                             <div class="col-12 mb-20">
-                                <label>Company Name</label>
-                                <input type="text" name="company_name">
-                            </div>
+                                <label>
+                                    Customer Name <span>*</span>
+                                </label>
 
-                            <div class="col-12 mb-20">
-                                <label for="country">Country <span>*</span></label>
-
-                                <select class="niceselect_option" name="country" id="country" required>
-                                    <option value="2">Bangladesh</option>
-                                    <option value="3">Algeria</option>
-                                    <option value="4">Afghanistan</option>
-                                    <option value="5">Ghana</option>
-                                    <option value="6">Albania</option>
-                                    <option value="7">Bahrain</option>
-                                    <option value="8">Colombia</option>
-                                    <option value="9">Dominican Republic</option>
-                                </select>
-                            </div>
-
-                            <div class="col-12 mb-20">
-                                <label>Street address <span>*</span></label>
                                 <input
-                                    placeholder="House number and street name"
                                     type="text"
-                                    name="address"
+                                    name="customer_name"
+                                    placeholder="Full name"
                                     required
                                 >
                             </div>
 
                             <div class="col-12 mb-20">
+                                <label>
+                                    Email Address <span>*</span>
+                                </label>
+
                                 <input
-                                    placeholder="Apartment, suite, unit etc. (optional)"
-                                    type="text"
-                                    name="apartment"
+                                    type="email"
+                                    name="customer_email"
+                                    placeholder="Email address"
+                                    required
                                 >
                             </div>
 
                             <div class="col-12 mb-20">
-                                <label>Town / City <span>*</span></label>
-                                <input type="text" name="city" required>
+                                <label>
+                                    Phone <span>*</span>
+                                </label>
+
+                                <input
+                                    type="tel"
+                                    name="customer_phone"
+                                    placeholder="Phone number"
+                                    required
+                                >
                             </div>
 
                             <div class="col-12 mb-20">
-                                <label>State / County <span>*</span></label>
-                                <input type="text" name="state" required>
-                            </div>
+                                <label>
+                                    Shipping Address <span>*</span>
+                                </label>
 
-                            <div class="col-lg-6 mb-20">
-                                <label>Phone <span>*</span></label>
-                                <input type="text" name="phone" required>
-                            </div>
-
-                            <div class="col-lg-6 mb-20">
-                                <label>Email Address <span>*</span></label>
-                                <input type="email" name="email" required>
+                                <textarea
+                                    name="shipping_address"
+                                    rows="4"
+                                    placeholder="Country, city, street, building number, apartment..."
+                                    required
+                                ></textarea>
                             </div>
 
                             <div class="col-12">
                                 <div class="order-notes">
-                                    <label for="order_note">Order Notes</label>
+
+                                    <label for="order_note">
+                                        Order Notes
+                                    </label>
 
                                     <textarea
                                         id="order_note"
-                                        name="order_notes"
-                                        rows="2"
+                                        name="notes"
+                                        rows="3"
                                         placeholder="Notes about your order, e.g. special notes for delivery."
                                     ></textarea>
+
                                 </div>
                             </div>
 
@@ -260,8 +274,18 @@ include __DIR__ . '/layouts/header.php';
 
                                             <td>
                                                 <div class="checkout_product_name">
-                                                    <?= htmlspecialchars($name, ENT_QUOTES, 'UTF-8') ?>
+                                                    <?= htmlspecialchars(
+                                                        $name,
+                                                        ENT_QUOTES,
+                                                        'UTF-8'
+                                                    ) ?>
                                                 </div>
+
+                                                <input
+                                                    type="hidden"
+                                                    name="products[<?= $id ?>][id]"
+                                                    value="<?= $id ?>"
+                                                >
                                             </td>
 
                                             <td>
@@ -283,26 +307,16 @@ include __DIR__ . '/layouts/header.php';
 
                                         </tr>
 
-                                        <input
-                                            type="hidden"
-                                            name="products[<?= $id ?>][id]"
-                                            value="<?= $id ?>"
-                                        >
-
-                                        <input
-                                            type="hidden"
-                                            name="products[<?= $id ?>][name]"
-                                            value="<?= htmlspecialchars($name, ENT_QUOTES, 'UTF-8') ?>"
-                                        >
-
                                     <?php endforeach; ?>
 
                                     <?php if (empty($carts)): ?>
+
                                         <tr>
                                             <td colspan="3" class="text-center">
                                                 Your cart is empty.
                                             </td>
                                         </tr>
+
                                     <?php endif; ?>
 
                                 </tbody>
@@ -311,6 +325,7 @@ include __DIR__ . '/layouts/header.php';
 
                                     <tr>
                                         <th colspan="2">Cart Subtotal</th>
+
                                         <td id="cart-subtotal">
                                             $<?= number_format($total, 2) ?>
                                         </td>
@@ -318,6 +333,7 @@ include __DIR__ . '/layouts/header.php';
 
                                     <tr class="order_total">
                                         <th colspan="2">Order Total</th>
+
                                         <td>
                                             <strong id="order-total">
                                                 $<?= number_format($total, 2) ?>
@@ -332,9 +348,14 @@ include __DIR__ . '/layouts/header.php';
                         </div>
 
                         <div class="order_button">
-                            <button type="submit">
+
+                            <button
+                                type="submit"
+                                <?= empty($carts) ? 'disabled' : '' ?>
+                            >
                                 Proceed to buy
                             </button>
+
                         </div>
 
                     </div>
@@ -346,28 +367,41 @@ include __DIR__ . '/layouts/header.php';
 
     </div>
 </div>
-<!--Checkout page section end-->
+<!-- Checkout Section End -->
 
 <script>
     const quantities = document.querySelectorAll('.checkout_quantity');
 
     function updateTotal() {
+
         let total = 0;
 
         quantities.forEach(input => {
+
             const price = parseFloat(input.dataset.price) || 0;
-            const quantity = Math.max(1, parseInt(input.value) || 1);
+
+            const quantity = Math.max(
+                1,
+                parseInt(input.value) || 1
+            );
 
             total += price * quantity;
+
         });
 
-        document.getElementById('cart-subtotal').textContent = '$' + total.toFixed(2);
-        document.getElementById('order-total').textContent = '$' + total.toFixed(2);
+        document.getElementById('cart-subtotal').textContent =
+            '$' + total.toFixed(2);
+
+        document.getElementById('order-total').textContent =
+            '$' + total.toFixed(2);
     }
 
     quantities.forEach(input => {
+
         input.addEventListener('input', updateTotal);
+
         input.addEventListener('change', updateTotal);
+
     });
 </script>
 

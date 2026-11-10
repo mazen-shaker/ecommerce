@@ -49,7 +49,7 @@ class UserController extends Main
     public function register($data)
     {
 
-        $this->model->insert([
+        $userId = $this->model->insert([
             'name' => $data['name'],
             'email' => $data['email'],
             'phone' => $data['phone'],
@@ -58,7 +58,8 @@ class UserController extends Main
 
         $_SESSION['user'] = [
             'logedIn' => true,
-            'name' => $data['name']
+            'name' => $data['name'],
+            'id' => $userId
         ];
 
         return header("Location:" . $GLOBALS['basePath'] . "/");
@@ -84,7 +85,8 @@ class UserController extends Main
 
             $_SESSION['user'] = [
                 'logedIn' => true,
-                'name' => $user[0]['name']
+                'name' => $user[0]['name'],
+                'id' => $user[0]['id']
             ];
 
             return header("Location:" . $GLOBALS['basePath'] . "/");
