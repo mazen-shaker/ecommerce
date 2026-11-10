@@ -17,8 +17,11 @@ class Main
         ];
     }
 
+
     static function get(string $url, array $controller)
     {
+        
+
         $parameter = false;
 
         if (preg_match('/\{(.*?)\}/', $url, $matches)) {

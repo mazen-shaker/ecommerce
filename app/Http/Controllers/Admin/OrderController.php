@@ -22,5 +22,22 @@ class OrderController extends Main
         return $this->view('admin/index-orders',compact('orders'));
     }
 
+    public function store($data)
+    {
+
+        if(isset($_SESSION['admin']['logedIn'])){
+        $this->model->insert([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'phone' => $data['phone'],
+            'password' => password_hash($data['password'], PASSWORD_DEFAULT)
+        ]);
+        }
+
+
+        return header("Location:" . $GLOBALS['basePath'] . "/" . $GLOBALS['previousUrl']);
+
+    }
+
 
 }

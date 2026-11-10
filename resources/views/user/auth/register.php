@@ -33,6 +33,7 @@ include __DIR__ . '/../layouts/header.php';
                                             <small style="display: block; color: #dc3545; font-size: 13px; margin-top: 6px;">
                                                 <?= htmlspecialchars($_SESSION['valedation']['name']) ?>
                                             </small>
+                                            <?php unset($_SESSION['valedation']['name']); ?>
                                         <?php endif; ?>
                                     </div>
 
@@ -44,6 +45,7 @@ include __DIR__ . '/../layouts/header.php';
                                             <small style="display: block; color: #dc3545; font-size: 13px; margin-top: 6px;">
                                                 <?= htmlspecialchars($_SESSION['valedation']['email']) ?>
                                             </small>
+                                            <?php unset($_SESSION['valedation']['email']); ?>
                                         <?php endif; ?>
                                     </div>
 
@@ -55,6 +57,7 @@ include __DIR__ . '/../layouts/header.php';
                                             <small style="display: block; color: #dc3545; font-size: 13px; margin-top: 6px;">
                                                 <?= htmlspecialchars($_SESSION['valedation']['phone']) ?>
                                             </small>
+                                            <?php unset($_SESSION['valedation']['phone']); ?>
                                         <?php endif; ?>
                                     </div>
 
@@ -66,6 +69,7 @@ include __DIR__ . '/../layouts/header.php';
                                             <small style="display: block; color: #dc3545; font-size: 13px; margin-top: 6px;">
                                                 <?= htmlspecialchars($_SESSION['valedation']['password']) ?>
                                             </small>
+                                            <?php unset($_SESSION['valedation']['password']); ?>
                                         <?php endif; ?>
                                     </div>
 
@@ -88,3 +92,4 @@ include __DIR__ . '/../layouts/header.php';
 include __DIR__ . '/../layouts/footer.php';
 include __DIR__ . '/../layouts/footer-scripts.php';
 ?>
+

@@ -75,7 +75,7 @@ Main::post('/products/assets/destroy', ['Admin\AssetController', 'destroy']);
 
 
 Main::get('/orders/index', ['Admin\OrderController', 'index']);
-
+Main::get('/orders/store', ['Admin\OrderController', 'store']);
 
 
 Main::get('/users/index', ['Admin\UserController', 'index']);
