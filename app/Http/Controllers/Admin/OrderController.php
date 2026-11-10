@@ -13,4 +13,14 @@ class OrderController extends Main
     {
         $this->model = new Order();
     }
+
+
+    public function index()
+    {
+       $orders = $this->model->all();
+
+        return $this->view('admin/index-orders',compact('orders'));
+    }
+
+
 }

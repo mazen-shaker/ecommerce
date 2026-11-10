@@ -18,7 +18,33 @@
           <i class="bi bi-card-list"></i>
           <span>Users</span>
         </a>
-      </li><!-- End Register Page Nav -->
+      </li> 
+     
+      <li class="nav-item">
+           <a class="nav-link collapsed" href="<?= $GLOBALS['basePath'] ?>/categories/index">
+          <i class="bi bi-card-list"></i>
+          <span>categories</span>
+        </a>
+      </li> 
+
+  <li class="nav-item">
+           <a class="nav-link collapsed" href="<?= $GLOBALS['basePath'] ?>/products/index">
+          <i class="bi bi-card-list"></i>
+          <span>Products</span>
+        </a>
+      </li> 
+
+
+  <li class="nav-item">
+           <a class="nav-link collapsed" href="<?= $GLOBALS['basePath'] ?>/orders/index">
+          <i class="bi bi-card-list"></i>
+          <span>Orders</span>
+        </a>
+      </li> 
+
+
+
+
     </ul>
 
   </aside><!-- End Sidebar-->

@@ -14,6 +14,17 @@ class UserController extends Main
         $this->model = new User();
     }
 
+
+    public function index()
+    {
+       $users = $this->model->all();
+
+        return $this->view('admin/index-users',compact('users'));
+    }
+
+
+
+
     public function createLogin()
     {
 
@@ -84,4 +95,57 @@ class UserController extends Main
 
         return header("Location:" . $GLOBALS['basePath'] . "/" . $GLOBALS['previousUrl']);
     }
+
+
+    public function store($data)
+    {
+
+        if(isset($_SESSION['admin']['logedIn'])){
+        $this->model->insert([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'phone' => $data['phone'],
+            'password' => password_hash($data['password'], PASSWORD_DEFAULT)
+        ]);
+        }
+
+
+        return header("Location:" . $GLOBALS['basePath'] . "/" . $GLOBALS['previousUrl']);
+
+    }
+
+
+    public function update($data)
+    {
+
+
+        if(isset($_SESSION['admin']['logedIn'])){
+
+        if($data['password']){
+        $this->model->update($data['id'],[
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'phone' => $data['phone'],
+            'password' => password_hash($data['password'], PASSWORD_DEFAULT)
+        ]);
+        }else{
+        $this->model->update($data['id'],[
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'phone' => $data['phone'],
+        ]);
+        } 
+        }
+        return header("Location:" . $GLOBALS['basePath'] . "/" . $GLOBALS['previousUrl']);
+    }
+
+    public function destroy($data)
+    {
+        if(isset($_SESSION['admin']['logedIn'])){
+        $this->model->destroy($data['id']);
+        }
+        return header("Location:" . $GLOBALS['basePath'] . "/" . $GLOBALS['previousUrl']);
+    }
+
+
 }

@@ -42,6 +42,13 @@ foreach ($routes as $route) {
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
+
+    if (!empty($_FILES)) {
+      $_POST['file'] = $_FILES;
+    }
+
+
+
         if ($route['valedation']) {
 
             $valedationClass = $route['valedation'];
@@ -52,7 +59,6 @@ foreach ($routes as $route) {
                 break;
             }
         }
-
         $controller->$method($_POST);
 
     } else {

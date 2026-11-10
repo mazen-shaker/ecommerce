@@ -127,7 +127,7 @@
                             <nav>
                                 <ul>
 
-                                    <li><a href="/">home</a></li>
+                               <li><a href="<?= $GLOBALS['basePath']?>/">home</a></li>
 
                                     <li>
                                         <a href="blog">

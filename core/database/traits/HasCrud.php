@@ -24,16 +24,20 @@ trait HasCrud
         return $stmt->fetch(\PDO::FETCH_ASSOC);
     }
 
-    public function insert($data): bool
+    public function insert($data): int|false
     {
-        $columns = implode(', ', array_keys($data));
-        $placeholders = implode(', ', array_fill(0, count($data), '?'));
+       $columns = implode(', ', array_keys($data));
+       $placeholders = implode(', ', array_fill(0, count($data), '?'));
 
-        $stmt = $this->db->prepare(
-            "INSERT INTO {$this->table} ({$columns}) VALUES ({$placeholders})"
-        );
+      $stmt = $this->db->prepare(
+         "INSERT INTO {$this->table} ({$columns}) VALUES ({$placeholders})"
+      );
 
-        return $stmt->execute(array_values($data));
+       if(!$stmt->execute(array_values($data))) {
+          return false;
+       }
+
+       return (int) $this->db->lastInsertId();
     }
 
     public function update($id, $data): bool
@@ -57,7 +61,7 @@ trait HasCrud
         return $stmt->execute($values);
     }
 
-    public function delete($id): bool
+    public function destroy($id): bool
     {
         $stmt = $this->db->prepare(
             "DELETE FROM {$this->table} WHERE id = ?"
