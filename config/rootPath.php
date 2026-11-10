@@ -8,7 +8,6 @@ function normalizeUrlPath(string $path): string
 }
 
 
-// Base Path
 
 $scriptName = str_replace(
     '\\',
@@ -23,7 +22,6 @@ $GLOBALS['basePath'] = ($scriptDirectory === '/' || $scriptDirectory === '\\')
     : rtrim($scriptDirectory, '/\\');
 
 
-// Request URL
 
 $requestPath = parse_url(
     $_SERVER['REQUEST_URI'] ?? '/',
@@ -45,7 +43,6 @@ if (
 $GLOBALS['requestUrl'] = normalizeUrlPath($requestPath);
 
 
-// Previous URL
 
 $refererPath = parse_url(
     $_SERVER['HTTP_REFERER'] ?? '/',
